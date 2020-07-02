@@ -1,0 +1,129 @@
+<div class="page-wrapper">
+    <div class="page-container">
+        <div class="content-wrapper" >
+            <div class="projectList">
+                <div *ngIf="projects | async as projectArr; else loading;">
+                    <ion-row class="newProject mb20" *ngIf="checkCreateProjectPermission()">
+                        <button nbButton (click)="newProject()" status="info">
+                            <div class="wrapper">
+                                <span class="gradientText">Start New Project</span>
+                            </div>
+                        </button>
+                    </ion-row>
+                    <ion-row class="ion-no-padding cardlistWrapper" >
+                        <!-- List All Projects Desktop Version-->
+                        <ion-col size="12" *ngFor="let project of projectArr;let index = index;" (click)="openProject(project)" class="album hide-xs hide-vs hide-sm">
+                            <div class="artwork">
+                                <!-- <img src="project.project_avatar"/> -->
+                                <img src="assets/images/bj.png"/>
+                            </div>
+                            <div class="metaInfo" *ngIf="project">
+                                <div class="metaTop">
+                                    <span class="albumTitle gradientText">{{ project.project_title }}</span>
+                                    <span class="colorGray">{{project.project_upc}}</span>
+                                </div>
+                                <ion-row class="metaBottom">
+                                    <ion-col size="12" sizeMd="6" class="ion-no-padding">
+                                        <p><b>{{project.serviceName}}</b></p>
+                                        <p>Updated by {{project.stamp_updated_by.name}}</p>
+                                        <p>{{project.stamp_created | date: 'MM-dd-y'}}</p>
+                                    </ion-col>
+                                    <ion-col size="12" sizeMd="6" class="p15">
+                                        <img src="https://soundblock.com/wp-content/uploads/2019/05/apple-music.svg">
+                                        <img src="https://soundblock.com/wp-content/uploads/2019/05/pandora.svg">
+                                        <img src="https://soundblock.com/wp-content/uploads/2019/05/arena.svg">
+                                        <img src="https://soundblock.com/wp-content/uploads/2019/05/spotify.svg">
+                                        <img src="https://soundblock.com/wp-content/uploads/2019/05/iheartradio.svg">
+                                    </ion-col>
+                                </ion-row>
+                            </div>
+                        </ion-col>
+                        <!-- List All Projects Mobile Version-->
+                        <ion-col size="12" *ngFor="let project of projectArr;let index = index;" (click)="openProject(project)" 
+                            class="album hide-md hide-lg hide-vl hide-xl">
+                            <ion-row>
+                                <ion-col size="3" class="artwork">
+                                    <!-- <img src="project.project_avatar"/> -->
+                                    <img src="assets/images/bj.png"/>
+                                </ion-col>
+                                <ion-col size="9" class="metaInfo" *ngIf="project">
+                                    <ion-row>
+                                        <span class="albumTitle gradientText">{{ project.project_title }}</span>
+                                    </ion-row>
+                                    <div class="metaTop">
+                                        <p><b>{{project.serviceName}}</b></p>
+                                        <p>{{project.stamp_created | date: 'MM-dd-y'}}</p>
+                                    </div>
+                                    <ion-row class="metaBottom">
+                                        <ion-col size="12" sizeMd="6" class="ion-no-padding">
+                                            <p>Updated by {{project.stamp_updated_by.name}}</p>
+                                            <p>{{project.project_upc}}</p>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="projectStatus">
+                                <div class="statusCard blue"><i class="far fa-exclamation-circle"></i>Upload</div>
+                                <div class="statusCard purple"><i class="far fa-exclamation-circle"></i>Contract</div>
+                                <div class="statusCard gradient"><i class="far fa-exclamation-circle"></i>Deploy</div>
+                            </ion-row>
+                            <ion-row class="platformIcons">
+                                <img src="https://soundblock.com/wp-content/uploads/2019/05/apple-music.svg">
+                                <img src="https://soundblock.com/wp-content/uploads/2019/05/pandora.svg">
+                                <img src="https://soundblock.com/wp-content/uploads/2019/05/arena.svg">
+                                <img src="https://soundblock.com/wp-content/uploads/2019/05/spotify.svg">
+                                <img src="https://soundblock.com/wp-content/uploads/2019/05/iheartradio.svg">
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="sectionTitle" *ngIf="drafts.length">
+                        <span class="pl10">Drafts</span>
+                    </ion-row>
+                    <div class="m20 gradientTable" *ngIf="drafts.length">
+                        <div class="border-bottom ion-padding-horizontal tableHeader">
+                            <ion-row class="rowWrapper">
+                                <ion-col size="4"><b>Title</b></ion-col>
+                                <ion-col size="4"><b>Type</b></ion-col>
+                                <ion-col size="4"><b>Created</b></ion-col>
+                            </ion-row>
+                        </div>
+                        <div class="row-highlight transition-action-2 tableBody" *ngFor="let draft of drafts; let index = index;" (click)="openDraft(draft)">
+                            <ion-row class="rowWrapper">
+                                <ion-col class="column" size="4">
+                                    {{ draft.draft_json.project.project_title }}
+                                </ion-col>
+                                <ion-col class="column" size="4">
+                                    {{ draft.draft_json.project.project_type }}
+                                </ion-col>
+                                <ion-col class="column" size="4">
+                                    {{ draft.stamp_updated | date: 'yyyy-MM-dd'}}
+                                </ion-col>
+                            </ion-row>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="noteList">
+                <div class="heading">
+                    <span> Noteable Events </span>
+                </div>
+                <div *ngIf="notesObs | async as notes; else loading;">
+                    <div *ngFor="let item of notes.notifications" class="event">
+                        <!-- <p>Project <span class="colorBlue">When I get home</span> is awaiting approval</p> -->
+                        <p>{{item.notification_memo}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <app-page-footer></app-page-footer>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="asyncLoading">
+        <ion-spinner name="lines"></ion-spinner>
+        <span class="ml10">Loading Project Data...</span>
+    </div>
+</ng-template>

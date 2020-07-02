@@ -1,0 +1,23 @@
+.organizeDialogBody { width: 700px;
+    .container { max-height: 300px; overflow: auto !important; padding: 15px;
+        .reorderHeader { display: flex; align-items: center; font-size: 1rem; padding: 10px;
+            .reorder { width: 40px;}
+            .track { width: 50px; }
+            .title { width: 250px; }
+            .name { width: 250px; }
+        }
+        .trackItem { display: flex; align-items: center; font-size: 1rem; padding: 10px; border-radius: 15px; margin-bottom: 10px;
+            border-top: 2px solid #782c7f ; border-right: 2px solid #782c7f ; border-bottom: 2px solid #518DC9 ; border-left: 2px solid #518DC9 ;
+            .reorder { width: 40px;}
+            .track { width: 50px; 
+                @media (max-width: 767px) {
+                    width: 25px;
+                }
+            }
+            .contentWrapper { display: flex; flex-direction: row; align-items: center; flex: 1;
+                .title { flex: 1; display: flex; align-items: center; }
+                .name { flex: 1; display: flex; align-items: center; }
+            }
+        }
+    }
+}

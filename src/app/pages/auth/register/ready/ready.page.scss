@@ -1,0 +1,44 @@
+.readyWrapper {
+    .content-wrapper {
+        .priceDescription { display: flex; 
+            @media(max-width: 767px) {
+                flex-direction: column;
+            }
+            .section { padding: 0 15px; border-top: 2px solid #782c7f ; border-right: 2px solid #782c7f ; flex: 1; margin: 10px 5px;
+                border-bottom: 2px solid #518DC9 ; border-left: 2px solid #518DC9 ; margin-bottom: 10px; border-radius: 15px; 
+                h6 { color: #782c7f; font-weight: bold !important; text-align: center; }
+                ul { padding-left: 20px; }
+            }
+        }
+        .passInput { position: relative;
+            .eyeWrapper { position: absolute; height: 100%; top: 0; right: 0; width: 10%; display: flex; align-content: center; margin-right: 10px;
+                .toggle-password { color: #303030 !important; }
+                span { position: relative; margin: auto; }
+            }
+        }
+        .leftPane { padding: 10px 30px;
+            .moreActions { margin-top: 15px; padding: 0 10px;
+                .forgotPassword { width: 100%;
+                    @media screen and (max-width: 767px){
+                        display: flex; justify-content: center;
+                    }
+                }
+            }
+        }
+        .rightPane { padding: 10px 30px;
+            .privacy-policy { display: flex; padding: 10px; color: #8898aa; font-size: 1rem; align-items: center;
+                ion-checkbox { margin-right: 8px; 
+                    @media (max-width: 767px) { width: 20px; height: 20px; }
+                }
+                a {
+                    &.policy-link { color: #518DC9; cursor: pointer; text-decoration: none;
+                    &:hover { color: #782c7f; }
+                    }
+                }
+            }
+            .createAccountBtn { display: flex; justify-content: center; margin-top: 10px;
+                button { width: 50%; }
+            }
+        }
+    }
+}

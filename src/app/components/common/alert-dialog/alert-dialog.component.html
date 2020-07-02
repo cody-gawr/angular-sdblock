@@ -1,0 +1,23 @@
+<ion-card class="alertDialog">
+  <ion-card-header>
+    <span>{{title}}</span>
+    <span><i class="fas fa-close" (click)="onClose()"></i></span>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row class="container">
+      <ion-col size="12" class="message">
+        {{message}}
+      </ion-col>
+      <ion-col size="12" *ngIf="description">
+        {{description}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="horizontalCenterRow p10">
+      <ion-col size="6">
+        <button nbButton shape="semi-round" fullWidth status="primary" (click)="onConfirm()">
+          <span>OK</span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

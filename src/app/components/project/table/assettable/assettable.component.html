@@ -1,0 +1,306 @@
+<div class="directory">
+  <div class="recentPanel" *ngIf="collectionService.curItemListObs | async as curItemList;else loading;">
+    <!-- Desktop breadcrumb header -->
+    <div class="breadcrumbHeader hide-sm hide-xs hide-vs" *ngIf="currentTab != 'Info'">
+      <ion-row class="infoWrapper">
+        Collection UUID: {{collectionUuid}}
+        <nb-alert *ngIf="isLatestCollection" status="info">Current</nb-alert>
+        <nb-alert *ngIf="!isLatestCollection" class="backgroundPurple">Historical</nb-alert>
+      </ion-row>
+      <ion-row class="verticalCenterRow breadcrumbRow">
+        <ul class="breadcrumb">
+          <li *ngFor="let item of breadcrumb; let $index = index; let $last = last" title="{{item.name}}">
+            <a *ngIf="!$last" (click)="onClickBreadcrumb($index)">{{item.name}}</a>
+            <span *ngIf="$last">{{item.name}}</span>
+          </li>
+        </ul>
+        <a class="checkedFilesLink" *ngIf="checkedItemsCount" (click)="showCheckedList()">{{checkedItemsCount}} Files Selected</a>
+      </ion-row>
+    </div>
+    <!-- Mobile breadcrumb header -->
+    <div class="breadcrumbHeader hide-md hide-lg hide-vl hide-xl" *ngIf="currentTab != 'Info'">
+      <div class="infoWrapper">
+        <span>Collection UUID:</span><span>{{collectionUuid}}</span>
+        <nb-alert *ngIf="isLatestCollection" status="info">Current</nb-alert>
+        <nb-alert *ngIf="!isLatestCollection" class="backgroundPurple">Historical</nb-alert>
+      </div>
+      <div class="verticalCenterRow breadcrumbRow">
+        <ul class="breadcrumb">
+          <li *ngFor="let item of breadcrumb; let $index = index; let $last = last" title="{{item.name}}">
+            <a *ngIf="!$last" (click)="onClickBreadcrumb($index)">{{item.name}}</a>
+            <span *ngIf="$last">{{item.name}}</span>
+          </li>
+        </ul>
+        <button nbButton status="info" class="historyButton" (click)="showBlockchainView($event)">
+          <div class="gradientText verticalCenterRow">
+            <i class="fas fa-clipboard-list mr5"></i> History
+          </div>
+        </button>
+      </div>
+      <div>
+        <a class="checkedFilesLink" *ngIf="checkedItemsCount" (click)="showCheckedList()">{{checkedItemsCount}} Files Selected</a>
+      </div>
+    </div>
+    <ion-row  class="no-padding" class="controlGroup">
+      <div class="left">
+        <button nbButton status="info" [disabled]="!checkedItemsCount" (click)="onDownload($event)" nbTooltip="Download" nbTooltipPlacement="top" nbTooltipStatus="info">
+          <i class="fas fa-download gradientText"></i></button>
+        <button nbButton status="info" [disabled]="!checkedItemsCount" (click)="editFiles($event, 'multi')" *ngIf="isLatestCollection"
+          nbTooltip="Edit" nbTooltipPlacement="top" nbTooltipStatus="info">
+          <i class="fas fa-edit gradientText"></i></button>
+        <button nbButton status="info" [disabled]="!checkedItemsCount" (click)="deleteFiles($event, 'multi')" *ngIf="isLatestCollection"
+          nbTooltip="Delete" nbTooltipPlacement="top" nbTooltipStatus="info">
+          <i class="fas fa-trash-alt gradientText"></i></button>
+      </div>
+      <div class="right">
+        <button nbButton status="info" (click)="organizeMusic()" *ngIf="isLatestCollection && currentTab == 'Music'">
+          <span class="gradientText">Organize</span></button>
+        <button nbButton status="info" (click)="uploadFile()" *ngIf="isLatestCollection">
+          <div class="gradientText verticalCenterRow"><i class="fas fa-plus-circle"></i><span> {{currentTab == 'Music' ? 'Track' : 'File'}}</span></div></button>
+        <button nbButton status="info" (click)="addFolder()" *ngIf="isLatestCollection && currentTab != 'Music' && currentTab != 'Video'">
+          <div class="gradientText verticalCenterRow"><i class="fas fa-plus-circle"></i><span>Folder</span></div></button>
+      </div>
+    </ion-row>
+    <div class="desktopTable hide-xs hide-vs hide-sm hide-md">
+      <ion-row class="tableHeader">
+        <ion-col size="0.5">
+          <ion-checkbox [(ngModel)]="checkAll" (ionChange)="onCheckAll()"></ion-checkbox>
+        </ion-col>
+        <ion-col *ngFor="let col of columns" [size]="col.size">
+          {{col.name != 'Info' ? col.name : ''}}
+        </ion-col>
+      </ion-row>
+      <!-- Folder List -->
+      <ion-row class="row-highlight tableBody" *ngFor="let folder of curItemList?.directories?.data; let index = index">
+        <ion-col class="column" size="0.5"></ion-col>
+        <ion-col [size]="col.size" class="column" *ngFor="let col of columns" (click)="navigateFolder(folder)">
+          <div *ngIf="col.name == 'File'">
+            <i  class="fas fileIcon" [ngClass]="sharedService.getFileIcon('dir')"></i>
+            <div class="verticalCell">
+              <div class="fileInfoWrapper">
+                <span>{{folder.directory_name}}</span>
+                <span *ngIf="folder.size" class="fileSize">{{folder?.directory_size | fileSize}}</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="col.name == 'Date'" class="verticalCell">
+            <span nbTooltip="{{folder.stamp_created_by.name}} Created at {{folder.stamp_created | date: 'MM/dd/y'}}" nbTooltipPlacement="top" nbTooltipStatus="info">
+              <img [src]="'assets/images/user.png'"/>{{ folder.stamp_created | dateAgo }}</span>
+            <span nbTooltip="{{folder.stamp_updated_by.name}} Modified at {{folder.stamp_updated | date: 'MM/dd/y'}}" nbTooltipPlacement="top" nbTooltipStatus="info">
+              <img [src]="'assets/images/user.png'"/>{{ folder.stamp_updated | dateAgo }}</span>
+          </div>
+          <!-- <i *ngIf="col.name == 'Info'" class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)" 
+            [nbTooltip]="curItemList.collection" nbTooltipPlacement="top" nbTooltipStatus="info"></i> -->
+          <div *ngIf="col.name == 'Actions' && isLatestCollection">
+            <!-- <i class="mr10 fas fa-clipboard-list actionIcon" (click)="onHistory($event, folder)" nbTooltip="History"
+            nbTooltipPlacement="top" nbTooltipStatus="info"></i> -->
+            <i class="mr10 fas fa-download actionIcon"  (click)="onDownload($event, folder)" nbTooltip="Download"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-edit actionIcon" (click)="editFolder($event, folder)" nbTooltip="Edit"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-trash-alt icon-colors actionIcon" (click)="deleteFolder($event, folder)" nbTooltip="Delete"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+          </div>
+          <!-- <div *ngIf="col.name == 'Actions' && !isLatestCollection">
+            <i class="mr10 fas fa-edit actionIcon" *ngIf="folder.revertable" (click)="revertFolder($event, folder)"
+              nbTooltip="Revert" nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-trash-undo actionIcon" *ngIf="folder.restorable" (click)="restoreFolder($event, folder)"
+              nbTooltip="Restore" nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+          </div> -->
+        </ion-col>
+      </ion-row>
+      <!-- File List -->
+      <ion-row class="row-highlight tableBody" *ngFor="let file of curItemList?.files; let index = index;">
+        <ion-col class="column" size="0.5">
+          <ion-checkbox [(ngModel)]="checkArray[index]" (ionChange)="clickCheckbox(file, index)"></ion-checkbox>
+        </ion-col>
+        <ion-col [size]="col.size" class="column" *ngFor="let col of columns">
+          <!-- Infos related to section -->
+          <div *ngIf="col.name == 'Track' && currentTab == 'Music'">
+            <span>{{file.file_track}}</span>
+          </div>
+          <div *ngIf="col.name == 'Track' && currentTab == 'Video'">
+            <span>{{file?.track?.file_title}}</span>
+            <div *ngIf="!file?.track?.file_title" class="actionIcon" (click)="editFiles($event, 'single', file)" nbTooltip="Add Track" nbTooltipPlacement="top" nbTooltipStatus="info">
+              <i class="fas fa-music mr5"></i> <span>+</span>
+            </div>
+          </div>
+          <!-- Common File Info -->
+          <div *ngIf="col.name == 'File'">
+            <i  class="fas fileIcon" [ngClass]="sharedService.getFileIcon(getFileKind(file.file_name))"></i>
+            <div class="verticalCell">
+              <div>
+                <span [ngClass]="{'backgroundRed': file.restorable, 'backgroundBlue': file.revertable}"> {{file.file_title}}</span>
+              </div>
+              <div class="fileInfoWrapper">
+                <span [ngClass]="{'backgroundRed': file.restorable, 'backgroundBlue': file.revertable}">
+                  {{file.file_name}}</span>
+                <span *ngIf="file.file_size" class="fileSize">{{file.file_size | fileSize}}</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="col.name == 'Title'">
+            <img src="assets/images/bj.png">
+            <span [ngClass]="{'backgroundRed': file.restorable, 'backgroundBlue': file.revertable}">{{file.file_title}}</span>
+          </div>
+          <div *ngIf="col.name == 'Date'" class="verticalCell">
+            <span nbTooltip="{{file.stamp_created_by.name}} Created at {{file.stamp_created | date: 'MM/dd/y'}}" nbTooltipPlacement="top" nbTooltipStatus="info">
+              <img [src]="'assets/images/user.png'"/>{{ file.stamp_created | dateAgo }}</span>
+            <span nbTooltip="{{file.stamp_updated_by.name}} Modified at {{file.stamp_updated | date: 'MM/dd/y'}}" nbTooltipPlacement="top" nbTooltipStatus="info">
+              <img [src]="'assets/images/user.png'"/>{{ file.stamp_updated | dateAgo }}</span>
+          </div>
+          {{ col.name == 'ISRC' ? file.file_isrc : '' }}
+          {{ col.name == 'SKU' ? file.file_sku : '' }}
+          <i *ngIf="col.name == 'Info'" class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)" [nbTooltip]="curItemList.collection_comment"
+            nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+          <div *ngIf="col.name == 'Actions' && isLatestCollection">
+            <i class="mr10 fas fa-clipboard-list actionIcon" (click)="onHistory($event, file)" nbTooltip="History"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-download actionIcon"  (click)="onDownload($event, file)" nbTooltip="Download"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-edit actionIcon" (click)="editFiles($event, 'single', file)" nbTooltip="Edit"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-trash-alt icon-colors actionIcon" (click)="deleteFiles($event, 'single', file)" nbTooltip="Delete"
+              nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+          </div>
+          <div *ngIf="col.name == 'Actions' && !isLatestCollection">
+            <i class="mr10 fas fa-edit actionIcon" *ngIf="file.revertable" (click)="revertFile($event, file)"
+              nbTooltip="Revert" nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+            <i class="mr10 fas fa-trash-undo actionIcon" *ngIf="file.restorable" (click)="restoreFile($event, file)"
+              nbTooltip="Restore" nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="mobileTable hide-lg hide-vl hide-xl">
+      <!-- Folder List -->
+      <ion-row class="row" *ngFor="let folder of curItemList?.directories?.data; let index = index" [ngClass]="{'backgroundGray': index % 2 == 0}">
+        <ion-col class="column" size="1"></ion-col>
+        <ion-col size="11" class="contentWrapper" (click)="navigateFolder(folder)">
+          <ion-row>
+            <ion-col size="7" *ngIf="currentTab!='Music'">
+              <i  class="fas fileIcon" [ngClass]="sharedService.getFileIcon('dir')"></i>
+              <span><b>{{folder.directory_name}}</b></span>
+            </ion-col>
+            <ion-col size="5">
+              <div *ngIf="isLatestCollection" class="actions">
+                <i class="fas fa-trash-alt" (click)="deleteFolder($event, folder)"></i>
+                <i class="fas fa-edit" (click)="editFolder($event, folder)"></i>
+                <i class="fas fa-download"  (click)="onDownload($event, folder)"></i>
+                <!-- <i class="fas fa-clipboard-list" (click)="onHistory($event, folder)"></i>
+                <i class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)"></i> -->
+              </div>
+              <!-- <div *ngIf="!isLatestCollection" class="actions">
+                <i class="fas fa-trash-undo" *ngIf="folder.restorable" (click)="restoreFolder($event, folder)"></i>
+                <i class="fas fa-edit" *ngIf="folder.revertable == 1" (click)="revertFolder($event, folder)"></i>
+                <i class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)"></i>
+              </div> -->
+            </ion-col>
+          </ion-row>
+          <!-- 
+          <ion-row>
+            <ion-col size="6">
+              {{folder.folder_name}}
+            </ion-col>
+            <ion-col size="6">
+              {{folder.folder_size | fileSize}}
+            </ion-col>
+          </ion-row> -->
+          <ion-row>
+            <ion-col size="6">
+              <img [src]="'assets/images/user.png'" class="avatar"/>
+              <span nbTooltip="{{folder.stamp_created | dateAgo}}" (click)="onClickInfo($event)" nbTooltipPlacement="top" nbTooltipStatus="info">
+                Created {{ folder.stamp_created | date: 'MM/dd/yyyy' }}
+              </span>
+            </ion-col>
+            <ion-col size="6">
+              <img [src]="'assets/images/user.png'" class="avatar"/>
+              <span nbTooltip="{{folder.stamp_updated | dateAgo}}" (click)="onClickInfo($event)" nbTooltipPlacement="top" nbTooltipStatus="info">
+                Modified {{ folder.stamp_updated | date: 'MM/dd/yyyy' }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- File List -->
+      <ion-row class="row" *ngFor="let file of curItemList?.files; let index = index" [ngClass]="{'backgroundGray': index % 2 == 0}">
+        <ion-col class="column" size="1">
+          <ion-checkbox [(ngModel)]="checkArray[index]"></ion-checkbox>
+        </ion-col>
+        <ion-col size="11" class="contentWrapper" (click)="expandColumn(index)">
+          <ion-row>
+            <ion-col size="7" *ngIf="currentTab=='Music'">
+              <img src="assets/images/bj.png">
+              <span [ngClass]="{'backgroundRed': file.restorable, 'backgroundBlue': file.revertable}">
+                {{file.file_track}} - <b>{{file.file_title}}</b>
+              </span>
+            </ion-col>
+            <ion-col size="7" *ngIf="currentTab!='Music'">
+              <i  class="fas fileIcon" [ngClass]="sharedService.getFileIcon(getFileKind(file.file_name))"></i>
+              <span [ngClass]="{'backgroundRed': file.restorable, 'backgroundBlue': file.revertable}"><b>{{file.file_title}}</b></span>
+            </ion-col>
+            <ion-col size="5">
+              <div *ngIf="isLatestCollection" class="actions">
+                <i class="fas fa-trash-alt" (click)="deleteFiles($event, 'single', file)"></i>
+                <i class="fas fa-edit" (click)="editFiles($event, 'single', file)"></i>
+                <i class="fas fa-download" (click)="onDownload($event, file)"></i>
+                <i class="fas fa-clipboard-list" (click)="onHistory($event, file)"></i>
+                <i class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)" ></i>
+              </div>
+              <div *ngIf="!isLatestCollection" class="actions">
+                <i class="fas fa-trash-undo" *ngIf="file.restorable" (click)="restoreFile($event, file)"></i>
+                <i class="fas fa-edit" *ngIf="file.revertable" (click)="revertFile($event, file)"></i>
+                <i class="fas fa-info-circle actionIcon" (click)="showBlockchainView($event)"></i>
+              </div>
+            </ion-col>
+          </ion-row>
+          <!-- File Common Info -->
+          <ion-row>
+            <ion-col size="6">
+              {{file.file_name}}
+            </ion-col>
+            <ion-col size="6">
+              {{file.file_size | fileSize}}
+            </ion-col>
+          </ion-row>
+          <!-- ISRC SKU TRACK-->
+          <ion-row>
+            <ion-col size="6" *ngIf="(currentTab == 'Music' || currentTab == 'Video') && file.file_isrc">
+              ISRC: {{file.file_isrc}}
+            </ion-col>
+            <ion-col size="6" *ngIf="currentTab == 'Merch' && file.file_sku">
+              SKU: {{file.file_sku}}
+            </ion-col>
+            <ion-col size="6" *ngIf="currentTab == 'Video'">
+              <span>{{file?.track?.file_title}}</span>
+              <div *ngIf="!file?.track?.file_title" class="actionIcon" (click)="editFiles($event, 'single', file)">
+                <i class="fas fa-music mr5"></i> <span>+</span>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="expandStatus[index]">
+            <ion-col size="6">
+              <img [src]="'assets/images/user.png'" class="avatar"/>
+              <span nbTooltip="{{file.stamp_created | dateAgo}}" (click)="onClickInfo($event)" nbTooltipPlacement="top" nbTooltipStatus="info">
+                Created {{ file.stamp_created | date: 'MM/dd/yyyy' }}
+              </span>
+            </ion-col>
+            <ion-col size="6">
+              <img [src]="'assets/images/user.png'" class="avatar"/>
+              <span nbTooltip="{{file.stamp_updated | dateAgo}}" (click)="onClickInfo($event)" nbTooltipPlacement="top" nbTooltipStatus="info">
+                Modified {{ file.stamp_updated | date: 'MM/dd/yyyy' }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="asyncLoading">
+      <ion-spinner name="lines"></ion-spinner>
+      <span class="ml10">Loading {{currentTab}} Data...</span>
+  </div>
+</ng-template>

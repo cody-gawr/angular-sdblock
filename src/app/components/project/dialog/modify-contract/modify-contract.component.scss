@@ -1,0 +1,33 @@
+.modifyContractDialog{ width: 80vw !important;
+    ion-card-content { 
+        .container { padding: 20px; font-size: 0.8rem; display: flex; 
+            .content { height: 60vh; overflow: auto;
+                .left-panel {
+                    .payoutBody { width: 100%;
+                        .selectRole { color: #fff !important; border-radius: 15px; }
+                        .payoutInput { position: relative;
+                            .percentage { position: absolute; color: #000000 !important; top: 13px; right: 15px; font-size: 1rem !important; }
+                        }
+                        .deleteBtn { display: flex; align-items: center; justify-content: center;
+                            i { font-size: 1.2rem; color: #da2424; cursor: pointer; }
+                        }
+                    }
+                    .payoutHeader {
+                        .hideLabel { margin-bottom: 0 !important;
+                            .custom-right { margin-bottom: -30px; }
+                        }
+                    }
+                    
+                    .form-row { border-bottom: 1.5px solid #d0d0d0; padding-bottom: 25px; }
+                    .addBtn { padding: 7px 12px; width: fit-content; height: fit-content; font-size: 0.8rem; margin-right: 20px; float: right;
+                        i { margin-right: 5px; }
+                    }
+                }
+                .right-panel { padding: 20px;
+                    .imageDiv { max-width: 325px; margin: 15px auto; }
+                }
+            }
+            .buttons { max-width: 700px; margin: 0 auto; }
+        }
+    }
+}

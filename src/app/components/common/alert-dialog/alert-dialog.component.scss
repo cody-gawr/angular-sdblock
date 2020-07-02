@@ -1,0 +1,9 @@
+.alertDialog{ width: 400px !important;
+    ion-card-content { 
+        .container { padding: 1rem; font-size: 1rem; color: gray;
+            ion-col { padding: 5px 0; }
+            .message { font-size: 1rem; color: #222b45; font-weight: bold; }
+            span { color: #222b45; }
+        }
+    }
+}

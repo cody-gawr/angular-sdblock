@@ -1,0 +1,11 @@
+<div class="accountPageWrapper" *ngIf="accountObservable | async as account; else loading;">
+    <app-holder [account]="account" *ngIf="page == 'Account'" (update)="getData()" (upgrade)="setPage('Upgrade')"></app-holder>
+    <app-upgrade *ngIf="page == 'Upgrade'" (upgrade)="onUpgrade()" (cancel)="setPage('Account')"></app-upgrade>
+</div>
+
+<ng-template #loading>
+    <div class="asyncLoading">
+        <ion-spinner name="lines"></ion-spinner>
+        <span class="ml10">Loading Account Data...</span>
+    </div>
+</ng-template>

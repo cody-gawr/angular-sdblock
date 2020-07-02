@@ -1,0 +1,58 @@
+.page-wrapper {
+  .page-container {
+    nb-select.appearance-outline.status-basic .select-button {
+      background-color: transparent !important;
+    }
+    .heading { color: #782c7f; font-size: 1.5rem; padding: 20px 0; }
+
+    .stepper { display: flex; justify-content: center; margin-top: 50px;
+      .step { width: 100px; display: flex; flex-direction: column; align-items: center; color: #518DC9; margin: 10px; cursor: pointer;
+        &.selected { color: #782c7f;
+          .stepIcon { background: linear-gradient(225deg, #518DC9 0%, #782c7f 100%); border-width: 0 !important; }
+          i { color: white; }
+        } 
+        .stepIcon { width: 60px; height: 60px; display: flex; border-color: #782c7f #782c7f #518DC9 #518DC9 ; border-radius: 30px; 
+          border-width: 2px; border-style: solid;
+          i { font-size: 1.6rem; margin: auto; }
+        }
+        span { font-size: 1.1rem; text-transform: uppercase; margin-top: 10px; }
+      }
+      .link { width: 150px; height: 3px; background: linear-gradient(90deg, transparent 0%, #518DC9 30%, #782c7f 80%, transparent 100%); 
+        margin-top: 30px;
+      } 
+    }
+    .projectForm {
+      @media (min-width: 992px) {
+        .hide-img { display: none; }
+      }
+      .sectionBody {
+        .datatime { cursor: pointer; height: 52px; }
+        .checked { position: absolute; top: 10px; right: 20px; color: #10c510 !important; }
+        .borderBottom { border-bottom: 1px solid #d0d0d0; }
+        .subgenre { padding: 15px; cursor: pointer; 
+          &:active { background: #d0d0d0; }
+        }
+        .selected { padding: 15px 15px 0; cursor: pointer; }
+        .customSelect { min-width: 100%; border-radius: 15px;}
+        
+        .searchItem { width: 100%; padding-left: 15px 0; margin: 0; }
+        .uploadFileWrapper { padding: 20px; margin: 0 auto; height: 200px; display: flex; justify-content: center; flex-direction: column;
+          .wrapper { flex: 1;}
+        }
+        .createServiceLink { padding: 10px 5px;
+          span { text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; color: #518DC9; }
+          button { width: 65px; padding: 5px; height: auto; border-radius: 5px !important; font-size: 0.8rem; margin: 0 5px; }
+        }
+      }
+      .uploadArtworkPanel { padding: 30px 30px; 
+        .imageDiv { max-width: 300px; margin: 0 auto; display: flex; justify-content: center; flex-direction: column; height: 100%; width: 100%;
+          button { max-width: 200px; margin: 20px auto; }
+          .imageWrapper { flex: 1; display: flex; align-items: center; width: 300px; height: 300px;
+            img { border-radius: 10px; width: 100%;}
+          }
+        }
+      }
+      .alert-danger { padding: 10px; }
+    }
+  }
+}

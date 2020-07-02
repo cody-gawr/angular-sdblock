@@ -1,0 +1,11 @@
+.confirmDialogBody { width: 400px;
+    ion-card-content {
+        .container{ padding: 10px; 
+            .description { font-size: 1rem; }
+            .fileInfo { font-size: 0.9rem; }
+            .fileSize { color: gray; }
+            nb-select { width: 100%;}
+            ion-textarea { margin: 0; }
+        }
+    }
+}

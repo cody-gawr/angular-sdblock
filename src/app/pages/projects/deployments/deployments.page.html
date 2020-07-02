@@ -1,0 +1,86 @@
+<div class="page-wrapper deploymentsPageWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <div class="mainContent" id="mainContent">
+        <app-infoheader></app-infoheader>
+        <app-tabheader tab="deployments"></app-tabheader>
+        <ion-row>
+          <ion-col size="12" class="p20">
+            <div class="addBtn">
+              <button nbButton routerDirection="forward" class="ion-margin-left-start transition-action iconBtn"
+                fullWidth shape="semi-round" status="primary" (click)="showDeployDialog()"> Deploy to Platform </button>
+            </div>
+          </ion-col>
+          <ion-col size="12" *ngIf="deployObs | async as deploys; else loading;">
+            <div class="gradientTable">
+              <div class="border-bottom ion-padding-horizontal tableHeader">
+                <ion-row class="rowWrapper">
+                  <ion-col size="2">Platform</ion-col>
+                  <ion-col size="3">Status</ion-col>
+                  <ion-col size="3">Release Date</ion-col>
+                  <ion-col size="4">Distribution</ion-col>
+                </ion-row>
+              </div>
+              <div class="row-highlight transition-action-2 tableBody" *ngFor="let deploy of deploys; let index = index;">
+                <ion-row class="rowWrapper">
+                  <ion-col class="column" size="2">{{deploy.platform.data.platform_name}} </ion-col>
+                  <ion-col class="column" size="3">{{deploy.status.data.deployment_status}}</ion-col>
+                  <ion-col class="column" size="3">{{deploy.stamp_created | date: 'MM/dd/yyyy'}}</ion-col>
+                  <ion-col class="column" size="4">{{deploy.distribution}}</ion-col>
+                </ion-row>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      <!-- <app-historybar class="sidemenu hidebar"></app-historybar> -->
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>
+<!-- Deploy dialog -->
+<ng-template #deployDialog let-data let-ref="dialogRef">
+  <form #form="ngForm" (ngSubmit)="deployProject(ref)" class="dialogForm">
+    <ion-card>
+      <ion-card-header>Deploy To Platform</ion-card-header>
+      <ion-card-content>
+        <ion-row class="ion-padding content">
+          <ion-col size="12">
+            <div class="ion-mading-start selectWrapper">
+              <nb-select name="platform" id="platform" class="custom-select full-width" required [(ngModel)]="platform" placeholder="Platform">
+                <nb-option *ngFor="let platform of platforms" [value]="platform.platform_uuid">
+                  {{ platform.platform_name }}</nb-option>
+              </nb-select>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-padding ml20">
+          <ion-text class="privacy-policy">
+            <ion-checkbox (ionChange)="agreed = !agreed"></ion-checkbox>
+            <div class="policy">
+              I accept the <a class="policy-link transition-action"> Terms of Service</a>
+            </div>
+          </ion-text>
+        </ion-row>
+        <ion-row class="p10">
+          <ion-col size="6">
+            <button nbButton shape="semi-round" fullWidth status="primary" type="submit" [disabled]="!agreed"> Deploy </button>
+          </ion-col>
+          <ion-col size="6">
+            <button nbButton shape="semi-round" fullWidth status="info" (click)="closeDialog(ref)">
+              <span class="gradientText">Close</span></button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ng-template>
+
+<ng-template #loading>
+  <div class="asyncLoading">
+      <ion-spinner name="lines"></ion-spinner>
+      <span class="ml10">Loading Deployment Data...</span>
+  </div>
+</ng-template>

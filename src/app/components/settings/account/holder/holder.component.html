@@ -1,0 +1,64 @@
+<ion-row class="section mt20">
+  <div class="title">
+    <span>Account Type: </span>
+  </div>
+  <div class="data" *ngIf="accountType == 'Paid'">
+    <div>
+      <span class="mr20">Paid ({{account?.plans?.data.plan_type}})</span>
+    </div>
+    <div>
+      <a class="action transition-action mr5" *ngIf="planType != 'Smart'" (click)="upgradeService()">Upgrade</a>
+      <a class="action transition-action mr5" *ngIf="planType == 'Smart'" (click)="onDowngrade(confirmDialog)">Downgrade</a>
+      <a class="action transition-action mr5" (click)="onCancelService(confirmDialog)">Cancel</a>
+    </div>
+  </div>
+  <div class="data" *ngIf="accountType == 'Free'">
+    <div><span class="mr20">Free</span></div>
+    <div><a class="action transition-action mr5" (click)="upgradeService()">Upgrade</a></div>
+  </div>
+</ion-row>
+<ion-row class="section verticalCenterRow" *ngIf="accountType == 'Paid'">
+  <div class="title">
+    <span>Credit Card: </span>
+  </div>
+  <div class="data">
+    <span class="creditNumber">****-****-****-{{account?.payment.card.last4}}</span>
+  </div>
+</ion-row>
+<ion-row class="section" *ngIf="accountType == 'Paid'">
+  <div class="title">
+    <span>Billing Date: </span>
+  </div>
+  <div class="data">
+    <span>{{getBillingDate(account.plans.data.plan_day) | date: 'longDate'}}</span>
+  </div>
+</ion-row>
+
+<ng-template #confirmDialog let-data let-ref="dialogRef">
+  <ion-card class="confirmDialogBody">
+    <ion-card-header>
+      <span>{{cancelType == 1? 'Downgrade Service' : 'Cancel Service'}}</span>
+      <span><i class="fas fa-close" (click)="closeDialog(ref)"></i></span>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="container">
+        <ion-col size="12" class="message">
+          {{cancelMsg}}
+        </ion-col>
+        <ion-col size="12">
+          {{cancelDesc}}
+        </ion-col>
+      </ion-row>
+      <ion-row class="horizontalCenterRow p10">
+        <ion-col size="6">
+          <button nbButton shape="semi-round" fullWidth status="primary" (click)="downgradeService(ref)">Submit</button>
+        </ion-col>
+        <ion-col size="6">
+          <button nbButton shape="semi-round" fullWidth status="info" (click)="closeDialog(ref)">
+            <span class="gradientText">Discard</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ng-template>

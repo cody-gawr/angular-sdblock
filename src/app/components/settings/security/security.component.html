@@ -1,0 +1,57 @@
+<form #form="ngForm" (ngSubmit)="changePassword()" class="feature signin-form">
+    <div class="feature-body">
+        <div class="leftPane">
+            <ion-row class="m10">
+                <span> Current Password </span>
+            </ion-row>
+            <ion-row size="12" class="passwordField">
+                <input autocomplete="off" (focusout)="checkCurrentPassword()" [(ngModel)]="curPassword" #password="ngModel" type="password" id="password" class="form-input" 
+                    required name="password" placeholder="Current Password" [ngClass]="{'is-invalid': validCurrentPassword == 0}"/>
+                <div class="eyeWrapper">
+                    <span onclick="viewPassword('password', 'pass-status')" id="pass-status" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+            </ion-row>
+            <ion-row size="12" class="passwordCheckWrapper verticalCenterRow" *ngIf="validCurrentPassword == 0">
+                Password is incorrect
+            </ion-row>
+            <ion-row size="12" class="m10">
+                <span> New Password </span>
+            </ion-row>
+            <ion-row size="12" class="passwordField">
+                <input autocomplete="off" (keyup)="changeNewPassword()" [(ngModel)]="newPassword" #newPasswordInput="ngModel" type="password" id="newPassword" 
+                    class="form-input" required name="newPassword" [disabled]="validCurrentPassword != 1"
+                    placeholder="New Password" [ngClass]="{'is-invalid':(passwordStrength !== 'Strong' &&!newPasswordInput.pristine &&passwordStrength !== 'Medium') || !validCurrentPassword}" />
+                <div class="eyeWrapper">
+                    <span onclick="viewPassword('newPassword', 'pass-status-1')" id="pass-status-1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+            </ion-row>
+            <ion-row size="12" class="p10 verticalCenterRow" *ngIf="newPassword && newPassword.length">
+                <ion-text class="password-strength">
+                    Password Strength:
+                    <ion-text class="strength-level" [color]="passwordStrength === 'Strong'? 'success': passwordStrength === 'Medium'? 'warning': 'danger'">
+                    {{ passwordStrength }}
+                    </ion-text>
+                </ion-text>
+            </ion-row>
+            <ion-row class="m10">
+                <span> Confirm Password </span>
+            </ion-row>
+            <ion-row size="12" class="mb50 passwordField">
+                <input autocomplete="off" [(ngModel)]="confirmPassword" type="password" id="confirmPassword" #confirmPasswordInput="ngModel" name="confirmPassword" class="form-input" 
+                    placeholder="Confirm Password" (ngModelChange)="checkPasswordMatch()" required [disabled]="validCurrentPassword != 1"
+                    [ngClass]="{'is-invalid':(!confirmPasswordInput.pristine && confirmPassword !== newPassword) || !validCurrentPassword}" />
+                <div class="eyeWrapper">
+                    <span onclick="viewPassword('confirmPassword', 'pass-status-2')" id="pass-status-2" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+            </ion-row>
+            <ion-row class="mt30" class="horizontalCenterRow">
+                <button nbButton status="primary" type="submit" [disabled]="!form.valid || confirmPassword != newPassword || !validCurrentPassword">
+                    <i class="icon-rig fad fa-user-cog"></i>Reset Password
+                </button>
+            </ion-row>
+        </div>
+        <div class="rightPane hide-vs hide-xs">
+            <img src="{{assetUrl}}/images/signup.jpg" />
+        </div>
+    </div>
+</form>

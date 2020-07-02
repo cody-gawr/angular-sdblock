@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Soundblock</title>
+
+    <base href="/" />
+
+    <meta name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  </head>
+
+  <body>
+    <app-root></app-root>
+    <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+    <script type="text/javascript" src="./assets/scripts/zip.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+      var stripe = Stripe('pk_test_Bux6mSBRhF7WHonHROH37OAR00pMgldwhb'); // use your test publishable key
+      var elements = stripe.elements();
+    </script>
+  </body>
+</html>

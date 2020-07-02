@@ -1,0 +1,120 @@
+<div class="page-wrapper readyWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <ion-row class="priceDescription">
+        <div class="section">
+          <h6 class="gradientText">BLOCKCHAIN REPORTING</h6>
+          <ul>
+            <li><strong>Digital Blockchain Reporting:</strong> $0.99 one-time /per digital music platform</li>
+            <li><strong>Blockchain Reporting:</strong> $4.99 per month /per physical & online storefront</li>
+            <li>100% Net Payout. Free ISRC & UPC Codes</li>
+          </ul>
+        </div>
+        <div class="section">
+          <h6 class="gradientText">UNLIMITED BLOCKCHAIN STORAGE</h6>
+          <ul>
+            <li><strong>Simple Block Storage</strong> for $4.99 per month, limited formats:.wav,.jpg,.mov,.mp4,mp3</li>
+            <li><strong>Smart Block Storage</strong> for $24.99 per month, collaborate with anyone anywhere</li>
+            <li>$0.25 for each Smart Block Storage file transfer</li>
+          </ul>
+        </div>
+        <div class="section">
+          <h6 class="gradientText">SMART CONTRACT SECURITY</h6>
+          <ul>
+            <li>One time charge of $9.99 per <strong>Smart Contract</strong></li>
+            <li>$1.99 per month for each read only account</li>
+            <li>All transactions and user activity are permanently recorded to your ledger forever</li>
+          </ul>
+        </div>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" sizeMd="6" class="leftPane">
+          <ion-row class="horizontalCenterRow">
+            <h4 class="gradientText">Sign In</h4>
+          </ion-row>
+          <form #signinForm="ngForm" (ngSubmit)="signIn(signinForm)">
+            <ion-row>
+              <ion-col size="12" class="emailInput">
+                <input type="email" id="email" class="form-input" name="email" required [(ngModel)]="email" placeholder="Username or Email" #emailModel="ngModel"
+                  [ngClass]="{'is-invalid': !emailModel.pristine && !emailModel.valid}" />
+              </ion-col>
+              <ion-col size="12" class="passInput">
+                <input id="password-field" name="password" [(ngModel)]="password" #passwordModel="ngModel" required type="password" class="form-input" 
+                minlength="6" placeholder="Password" [ngClass]="{ 'is-invalid':!passwordModel.pristine && !passwordModel.valid}" />
+                <div class="eyeWrapper">
+                  <span onclick="viewPassword('password-field', 'pass-status')" id="pass-status"
+                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class="moreActions">
+              <ion-col size="12" sizeMd="6" class="verticalCenterRow">
+                <div class="forgotPassword">
+                  <a class="redirect-links" (click)="navigate('password-recovery')">Forgot password?</a><br />
+                </div>
+              </ion-col>
+              <ion-col class="verticalCenterRow horizontalCenterRow" size="12" sizeMd="6">
+                <!-- <button nbButton shape="semi-round" class="transition-action signinBtn" type="submit" status="info">
+                  <span class="gradientText">SIGN IN</span></button> -->
+                <button nbButton shape="semi-round" class="signinBtn" type="submit" status="primary">SIGN IN</button>
+              </ion-col>
+            </ion-row>
+          </form>
+        </ion-col>
+        <ion-col size="12" sizeMd="6" class="rightPane">
+          <ion-row class="horizontalCenterRow">
+            <h4 class="gradientText">Sign Up</h4>
+          </ion-row>
+          <form #signupForm="ngForm" (ngSubmit)="signUp(signupForm)">
+            <ion-row class="p5">
+              <input autocomplete="off" type="text" [(ngModel)]="user.name" id="name" #name="ngModel" name="name" class="form-input" minlength="1" required placeholder="Name" [ngClass]="{'is-invalid': !name.valid && !name.pristine}" />
+            </ion-row>
+            <ion-row class="p5">
+              <input autocomplete="off" type="email" [(ngModel)]="user.email" #signupEmail="ngModel" name="signupEmail" id="signupEmail" signupEmail class="form-input" 
+              pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{1,}[.]{1}[a-zA-Z]{2,}" placeholder="Email" [ngClass]="{'is-invalid': !signupEmail.valid && !signupEmail.pristine}" />
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" class="passInput">
+                <input autocomplete="off" (keyup)="onChangePassword()" [(ngModel)]="user.password" #signupPass="ngModel" type="password" id="signupPass"
+                  class="form-input" required name="signupPass" placeholder="Password"
+                  [ngClass]="{'is-invalid':passwordStrength !== 'Strong' &&!signupPass.pristine &&passwordStrength !== 'Medium'}" />
+                <div class="eyeWrapper mr5">
+                  <span onclick="viewPassword('password', 'pass-status-1')" id="pass-status-1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+              </ion-col>
+              <ion-col size="12" class="passwordStrengthWrapper" *ngIf="user.password && user.password.length">
+                <ion-text class="password-strength">
+                  Password Strength:
+                  <ion-text class="strength-level" [color]="passwordStrength === 'Strong'? 'success': passwordStrength === 'Medium'? 'warning': 'danger'">
+                    {{ passwordStrength }}
+                  </ion-text>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="passInput p5">
+              <input autocomplete="off" [(ngModel)]="passwordConfirm" type="password" id="password-2" #password2="ngModel" name="password2" class="form-input" placeholder="Confirm Password"
+              (ngModelChange)="mustMatch(user.password, passwordConfirm)" [ngClass]="{'is-invalid':!password2.pristine && passwordConfirm !== user.password}" />
+              <div class="eyeWrapper">
+                <span onclick="viewPassword('password-2', 'pass-status-2')" id="pass-status-2" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+              </div>
+            </ion-row>
+            <ion-row>
+              <ion-text class="privacy-policy">
+                <ion-checkbox (ionChange)="agreed = !agreed"></ion-checkbox>
+                <div class="policy">
+                  I agree with the <a class="policy-link transition-action">Privacy Policy</a>
+                </div>
+              </ion-text>
+            </ion-row>
+            <ion-row class="createAccountBtn">
+              <button nbButton status="primary" type="submit"> CREATE ACCOUNT</button>
+            </ion-row>
+          </form>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

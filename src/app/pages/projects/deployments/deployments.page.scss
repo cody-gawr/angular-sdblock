@@ -1,0 +1,38 @@
+.page-container {
+    .content-wrapper { color: #525F7F; font-size: 1rem; position: relative; padding: 0; width: 100%; 
+        .mainContent { position: relative;
+            &.menuExpand { margin-right: 270px; 
+                @media screen and (max-width: 767px) {
+                    margin-right: 0px;
+                }
+            }
+            .addBtn { width: 200px; position: relative;  margin: 5px 5px;}
+            .gradientTable { padding: 10px 30px;
+                @media screen and (max-width: 767px) {
+                    padding: 5px;
+                }
+                ion-col { display: flex; align-items: center; }
+                i { font-size: 2rem;}
+            }
+        }
+        .sidemenu { position: absolute; right: 0; height: 100%; width: 270px; top: 0; border-bottom-width: 1px;
+            @media screen and (max-width: 767px) {
+                width: 0; border-width: 0;
+            }
+        }
+    }
+}
+.dialogForm {
+    nb-select { width: 100%; }
+    .privacy-policy { display: flex; color: #8898aa; font-size: 1rem; align-items: center;
+        ion-checkbox { margin-right: 8px; 
+            @media (max-width: 767px) { width: 20px; height: 20px; }
+        }
+        a {
+            &.policy-link { color: #5e72e4; cursor: pointer; text-decoration: none;
+                &:hover { color: #7ca0ff; }
+            }
+        }
+    }
+    button:disabled, button[disabled] { opacity: 1; cursor: not-allowed; }
+}

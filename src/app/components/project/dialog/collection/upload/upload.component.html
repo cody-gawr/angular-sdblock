@@ -1,0 +1,21 @@
+<ion-card class="uploadDialog">
+  <ion-card-header #header>
+    <span>Upload File</span>
+    <span><i class="fas fa-close" (click)="close()"></i></span>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row class="container">
+      <ion-col size="12" class="inputFileZone">
+        <upload-file placeholder="Click or Drop a File" (fileSelected)="fileSelected($event)"></upload-file>
+      </ion-col>
+      <ion-col size="12" class="commentWrapper">
+        <ion-textarea class="form-textarea" rows="6" name="comment" [(ngModel)]="comment" placeholder="Share Comment for Team Members" #fileCommentInput></ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row class="horizontalCenterRow p10">
+      <ion-col size="6">
+        <button shape="semi-round" fullWidth status="info" nbButton (click)="uploadFile()"> <span class="gradientText">Submit</span> </button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

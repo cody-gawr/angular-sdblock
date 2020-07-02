@@ -1,0 +1,55 @@
+<ion-row class="priceDescription">
+  <div class="section">
+    <h6 class="gradientText">BLOCKCHAIN REPORTING</h6>
+    <ul>
+      <li><strong>Digital Blockchain Reporting:</strong> $0.99 one-time /per digital music platform</li>
+      <li><strong>Blockchain Reporting:</strong> $4.99 per month /per physical & online storefront</li>
+      <li>100% Net Payout. Free ISRC & UPC Codes</li>
+    </ul>
+  </div>
+  <div class="section">
+    <h6 class="gradientText">UNLIMITED BLOCKCHAIN STORAGE</h6>
+    <ul>
+      <li><strong>Simple Block Storage</strong> for $4.99 per month, limited formats:.wav,.jpg,.mov,.mp4,mp3</li>
+      <li><strong>Smart Block Storage</strong> for $24.99 per month, collaborate with anyone anywhere</li>
+      <li>$0.25 for each Smart Block Storage file transfer</li>
+    </ul>
+  </div>
+  <div class="section">
+    <h6 class="gradientText">SMART CONTRACT SECURITY</h6>
+    <ul>
+      <li>One time charge of $9.99 per <strong>Smart Contract</strong></li>
+      <li>$1.99 per month for each read only account</li>
+      <li>All transactions and user activity are permanently recorded to your ledger forever</li>
+    </ul>
+  </div>
+</ion-row>
+<ion-row class="selectStorage">
+  <ion-col size="12" class="sectionTitle">
+    <h6>Storage Type</h6>
+  </ion-col>
+  <ion-radio-group class="verticalCenterRow p10" [(ngModel)]="storage">
+    <div class="verticalCenterRow mr20">
+      <ion-radio value="Simple" class="mr10" checked></ion-radio><span (click)="onSelectStorage('Simple')">Simple Block Storage</span>
+    </div>
+    <div class="verticalCenterRow">
+      <ion-radio value="Smart" class="mr10"></ion-radio><span (click)="onSelectStorage('Smart')">Smart Block Storage</span>
+    </div>
+  </ion-radio-group>
+</ion-row>
+<form (ngSubmit)="onUpgrade()">
+  <ion-row class="p10">
+    <ion-col size="12" class="sectionTitle">
+      <h6>Credit Card</h6>
+    </ion-col>
+    <ion-col size="12" sizeMd="6" class="p10">
+      <div id="card-info" #cardInfo></div>
+      <div id="card-errors" role="alert">{{error}}</div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="buttonSection mb20">
+    <button nbButton status="info" shape="semi-round" (click)="onCancel()"><span
+        class="gradientText">Cancel</span></button>
+    <button nbButton status="primary" shape="semi-round" type="submit">Upgrade</button>
+  </ion-row>
+</form>

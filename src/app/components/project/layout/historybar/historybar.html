@@ -1,0 +1,116 @@
+<div class="container">
+  <ion-content>    
+    <div class="full-width full-height">
+      <ion-row class="infoSection mb20">
+        <ion-col size="12" class="p10 horizontalCenterRow imageWrapper">
+          <!-- <img [src]="project.project_avatar" /> -->
+          <img src="assets/images/bj.png"/>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow">
+          <input type="file" name="artwork" id="artwork" class="inputfile" (change)="updateArtwork($event)"/>
+          <button nbButton shape="semi-round" type="button" status="info" onclick="document.getElementById('artwork').click()">
+            <div class="gradientText verticalCenterRow"><i class="fas fa-edit"></i> <span>Artwork</span></div>
+            </button>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow ion-no-padding">
+          <span class="bolder">{{project.serviceName}}</span>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow ion-no-padding">
+          <span><b>{{project?.project_title}}</b></span>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow ion-no-padding">
+          <span>{{project?.project_genre}}</span>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow ion-no-padding">
+          <span>{{project.stamp_created | date:'MMMM d, y'}}</span>
+        </ion-col>
+        <ion-col size="12" class="horizontalCenterRow ion-no-padding">
+          <span>{{project.project_upc}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="horizontalCenterRow" *ngIf="collections.length > 0">
+        <span class="gradientText historyTitle">History</span>
+      </ion-row>
+      <ion-row *ngFor="let collection of collections; let i = index" (click)="selectVersion(collection)" class="historyList">
+        <ion-col size="12" class="wrapper" [ngClass]="{'selected': isCurrentCollection(collection)}" *ngIf=" i >= curPage * 4 - 4 && i < curPage * 4">
+          <div class="item" >
+            <div class="sectionIconWrapper" *ngIf="collection?.history as collectionHistory">
+              <i class="fad fa-list-music icon-colors" *ngIf="collectionHistory.history_category == 'Music'"></i>
+              <i class="fad fa-photo-video icon-colors" *ngIf="collectionHistory.history_category == 'Video'"></i>
+              <i class="fad fa-tags icon-colors-2" *ngIf="collectionHistory.history_category == 'Merch'"></i>
+              <i class="fad fa-folder-tree icon-colors" *ngIf="collectionHistory.history_category == 'Other'"></i>
+              <i class="fas fa-cabinet-filing" *ngIf="collectionHistory.history_category == 'Multiple'"></i>
+            </div>
+            <div class="info">
+              <div class="author">
+                <span>{{collection.stamp_updated_by.name}}</span>
+                <span>{{collection.stamp_updated| date:'MM/dd/y'}}</span>
+              </div>
+              <div class="comment">{{collection.collection_comment}}</div>
+              <div class="actions mt5"  *ngIf="collection?.history as collectionHistory">
+                <div class="action" (click)="onAction($event, collection)">
+                  <i class="fas fa-file-plus" *ngIf="collectionHistory.file_action == 'Created'"></i>
+                  <i class="fas fa-file-minus" *ngIf="collectionHistory.file_action == 'Deleted'"></i>
+                  <i class="fas fa-file-code" *ngIf="collectionHistory.file_action == 'Modified'"></i>
+                  <i class="fas fa-file-edit" *ngIf="collectionHistory.file_action == 'Reverted'"></i>
+                  <i class="fas fa-file-check" *ngIf="collectionHistory.file_action == 'Restored'"></i>
+                  <span class="ml5">{{collection?.fileshistory?.length}}</span>
+                </div>
+                <div *ngIf="collectionHistory.file_action != 'Modified'">
+                  <i class="fas fa-file-search ml10"></i>
+                  <span class="ml5">{{collection?.history?.history_size | fileSize}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="pagination horizontalCenterRow verticalCenterRow mt10" *ngIf="collections.length > 4">
+        <i class="far fa-chevron-double-left" (click)="pagePrev()"></i><span class="spanPage">{{curPage}}</span><span>of</span> <span class="spanPageCount">{{pageCount}}</span><i class="far fa-chevron-double-right" (click)="pageNext()"></i>
+      </ion-row>
+    </div>
+  </ion-content>
+</div>
+
+<!-- Change Dialog -->
+<ng-template #changeDetailDialog let-data let-ref="dialogRef">
+  <ion-card class="changeDialog">
+    <ion-card-header>
+      <span>Changes</span>
+      <span>ID: {{historyCollection.collection_uuid}}</span>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="container">
+        <ion-row>
+          <ion-col size="1" class=" verticalCenterRow horizontalCenterRow"></ion-col>
+          <ion-col size="5">
+            <p> Name </p>
+          </ion-col>
+          <ion-col size="6">
+            <p> Path </p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of historyCollection.fileshistory">
+          <ion-col size="1" class=" verticalCenterRow horizontalCenterRow" *ngIf="historyCollection.history.file_action as file_action">
+            <i class="fas fa-plus" *ngIf="file_action == 'Created'" style="color: #3dca3d;"></i>
+            <i class="fas fa-minus" *ngIf="file_action == 'Deleted'" style="color: red;"></i>
+            <i class="fas fa-wrench" *ngIf="file_action == 'Modified'" style="color: #3d4bca;"></i>
+            <i class="fas fa-wrench" *ngIf="file_action == 'Reverted'" style="color: #3d4bca;"></i>
+            <i class="fas fa-reply-all" *ngIf="file_action == 'Restored'" style="color: #3dca3d;"></i>
+          </ion-col>
+          <ion-col size="5">
+            <p> {{item.file_name}}</p>
+          </ion-col>
+          <ion-col size="6">
+            <p> {{item.file_path}}</p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row class="p10">
+        <ion-col size="6" offset="3">
+          <button nbButton shape="semi-round" fullWidth status="info" (click)="closeDialog(ref)"><span class="gradientText">Close</span></button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ng-template>

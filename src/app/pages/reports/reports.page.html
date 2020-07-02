@@ -1,0 +1,87 @@
+<div class="page-wrapper">
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div *ngIf="accountObservable | async as account; else loading;">
+                <ion-row class="section mt20">
+                    <div class="title">
+                        <span>Service Type: </span>
+                    </div>
+                    <div class="data">
+                        <div>
+                            <span class="mr20">Paid ({{account?.plans?.data.plan_type}})</span>
+                        </div>
+                    </div>
+                </ion-row>
+                <ion-row class="section verticalCenterRow">
+                    <div class="title">
+                    <span>Credit Card: </span>
+                    </div>
+                    <div class="data">
+                    <span class="creditNumber">{{this.account?.cardNumber | accountNumber: 'credit'}}</span>
+                    </div>
+                </ion-row>
+                <ion-row class="section">
+                    <div class="title">
+                        <span>Billing Date: </span>
+                    </div>
+                    <div class="data">
+                        <span>{{getBillingDate(account.plans.data.plan_day) | date: 'longDate'}}</span>
+                    </div>
+                </ion-row>
+                <ion-row class="section">
+                    <div class="title">
+                        <span>Service Cost: </span>
+                    </div>
+                    <div class="data">
+                        <span>{{account.plans.data.plan_cost}}$ / Month</span>
+                    </div>
+                </ion-row>
+                <ion-row class="mt20">
+                    <ion-col size="12" class="gradientTable paymentTable ion-no-padding">
+                        <div class="border-bottom ion-padding-horizontal tableHeader">
+                        <ion-row class="rowWrapper">
+                            <ion-col size="2" class="verticalCenterRow">Date</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">Type</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">Status</ion-col>
+                            <ion-col size="1" class="verticalCenterRow">Amount</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">Purpose</ion-col>
+                            <ion-col size="3" class="verticalCenterRow">Memo</ion-col>
+                        </ion-row>
+                        </div>
+                        <div class="tableBody" *ngFor="let item of transactionData; let index = index">
+                        <ion-row class="rowWrapper">
+                            <ion-col size="2" class="verticalCenterRow">{{item.date | date: 'MMM dd, yyyy'}}</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">{{item.type}}</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">
+                                <span class="status" [ngClass]="{'purple': item.status == 'Debited', 
+                                    'blue': item.status == 'Credited', 'gradient': item.status == 'Pending'}">
+                                    {{item.status}}
+                                </span>
+                            </ion-col>
+                            <ion-col size="1" class="verticalCenterRow amount">${{item.amount | number: '1.2-2'}}</ion-col>
+                            <ion-col size="2" class="verticalCenterRow">{{item.purpose}}</ion-col>
+                            <ion-col size="3" class="verticalCenterRow">{{item.memo}}</ion-col>
+                        </ion-row>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </div>
+            
+            <div class="chartWrapper mt20">
+                <canvas class="myCanvas" #myCanvas id="myCanvas">
+                    {{ billChart }}
+                </canvas>
+            </div>    
+        </div>
+        <div class="page-footer">
+            <app-page-footer></app-page-footer>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="asyncLoading">
+        <ion-spinner name="lines"></ion-spinner>
+        <span class="ml10">Loading Report Data...</span>
+    </div>
+</ng-template>

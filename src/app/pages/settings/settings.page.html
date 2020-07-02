@@ -1,0 +1,26 @@
+<div class="page-wrapper accountWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <div class="settingsTab">
+        <button class="tablinks" (click)="changeTab(1)" [ngClass]="{'active': selectedTab == 1}">
+          <div class="wrapper">
+            <i class="fad fa-handshake icon-colors"></i><span>Account</span>
+          </div>
+          <div class="border"></div>
+        </button>
+        <button class="tablinks" (click)="changeTab(2)" [ngClass]="{'active': selectedTab == 2}">
+          <div class="wrapper">
+            <i class="fad fa-user-lock icon-colors"></i><span>Security</span>
+          </div>
+          <div class="border"></div>
+        </button>
+        
+      </div>
+      <app-account *ngIf="selectedTab == 1"></app-account>
+      <app-security *ngIf="selectedTab == 2"></app-security>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

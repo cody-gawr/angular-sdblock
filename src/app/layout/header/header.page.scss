@@ -1,0 +1,45 @@
+ion-header { z-index: 100; box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.15); transition: all 0.5s ease-in-out; background: rgba(255, 255, 255, 0.9);
+  .container { margin-left: auto; margin-right: auto; padding: 5px 0;
+    .desktopMenu { padding: 0 15px; height: 50px;
+      .logoWrapper { display:flex; flex-direction: row; justify-content: space-between; height: 100%;
+        .logo { display: flex; font-size: 1.25rem; line-height: inherit; white-space: nowrap;
+          a { cursor: pointer; display: flex;
+            img { max-width: 150px; }
+          }
+        }
+      }
+      .menu { height: 100%;
+        .menu-header { display: flex; height: 100%; align-items: center;
+          .navbar-nav { list-style: none; display: flex;
+            .menu-item { float: left; margin-right: 25px; flex-direction: row; display: flex; color: #000;
+              span { color: #000; text-decoration: none; font-weight: 700; text-align:center; cursor: pointer; display: flex; align-items: center;
+                @media (max-width: 1300px) { font-size: 1rem; }
+                i { margin-right: 5px;}
+                .icon { color: #000; }
+                &::after { display: block; content: ''; border-bottom-width: 2px; border-bottom-style: solid; transform: scaleX(0); }
+                &:hover::after { transform: scaleX(1); }
+              }
+            }
+          }
+          .avatar { width: 30px; cursor: pointer; position: relative;
+            img { width: 100%; border-radius: 15px; }
+            .badge { position: absolute; top: 0; right: 0; width: 10px; height: 10px; border-radius: 5px; background: #ff3d71; }
+          }
+        }
+      }
+      
+    }
+    .mobileMenu { height: 40px; padding: 0px 7px; display: flex;
+      .logo { display: flex; align-items: center; padding-left: 0.5rem;
+        img { height: 32px; }
+      }
+      .menu { display: flex; flex-direction: row-reverse; align-items: center; flex: 1;
+        .icon { display: flex; align-items: center; font-size: 1.7rem; cursor: pointer; padding: 0 5px; width: 35px; position: relative;
+          &.support { font-size: 1.5rem; }
+          .badge { position: absolute; top: 0; right: 3px; width: 10px; height: 10px; border-radius: 5px; background: #ff3d71; }
+          img { width: 100%; border-radius: 50%; }
+        }
+      }    
+    }
+  }
+}

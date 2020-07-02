@@ -1,0 +1,36 @@
+<div class="page-wrapper goWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <ion-row class="header">
+        <span class="gradientText">You're all set. Welcome to Soundblock.</span>
+      </ion-row>
+      <ion-row class="content">
+        <div class="leftPane">
+          <ion-row class="mt20">
+            <span class="title">Username:</span>
+            <span>Yurii Kosiak</span>
+          </ion-row>
+          <ion-row>
+            <span class="title">Account Type:</span>
+            <span>{{type}}</span>
+          </ion-row>
+          <ion-row>
+            <span class="title">Confirmation:</span>
+            <span>{{confirm}}</span>
+          </ion-row>
+        </div>
+        <div class="rightPane">
+          <img src="{{assetUrl}}/images/signup.jpg" />
+        </div>
+      </ion-row>
+      <ion-row class="buttonGroup">
+        <button nbButton type="button" class="m5" status="info" (click)="onFinish()">
+          <span class="gradientText verticalCenterRow">Continue to Dashboard</span></button>
+        <button nbButton routerDirection="forward" status="primary" class="m5" (click)="createProject()"> Create Project </button>
+      </ion-row>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

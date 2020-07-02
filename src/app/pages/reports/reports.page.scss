@@ -1,0 +1,40 @@
+.page-wrapper {
+    .content-wrapper {
+        .section { padding: 10px; display: flex;
+            .title { width: 150px;
+                span { font-size: 1.1rem; color: #782c7f; }
+            }
+            .data { font-size: 1rem; color: #222B45; display: flex; flex-wrap: wrap; flex: 1;
+                i { margin-left: 10px; font-size: 1.1rem; cursor: pointer;
+                    &:hover { transform: scale(1.05); }
+                }
+                .action { cursor: pointer;}
+                .creditNumber { font-family: serif; }
+            }
+        }
+        .paymentTable { padding: 0 10px;
+            .tableHeader { color: #222b45; }
+            ion-col { padding: 1rem 0.5rem;}
+            .icon { padding: 0; display: flex; justify-content: center; align-items: center;
+                @media (max-width: 767px) {
+                    padding: 0;
+                }
+                i { font-size: 1.5rem;  width: auto;
+                    &.fa-cc-paypal { font-size: 1.7rem; }
+                }
+            }
+            .status { text-transform: uppercase; color: white; 
+                padding: 3px 8px; border-radius: 3px; font-size: 0.8rem; font-weight: bold;
+                &.gradient { background: linear-gradient(90deg, #518DC9 0%, #782c7f 100%); }
+                &.blue { background: #518DC9; }
+                &.purple { background: #782c7f; }
+            }
+            .amount { color: #518DC9; }
+        }
+        .chartWrapper { position: relative; width: 80%; margin: auto; 
+            @media screen and (max-width: 767px){
+                width: 100%;
+            }
+        }
+    }
+}

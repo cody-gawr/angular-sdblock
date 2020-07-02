@@ -1,0 +1,85 @@
+<div class="page-wrapper">
+  <div class="page-container">
+    <div class="content-wrapper border-bottom">
+      <div class="stepper">
+        <div class="step" (click)="edit(1)">
+          <div class="stepIcon"> <i class="fas fa-cloud-music"></i> </div>
+          <span>Project</span>
+        </div>
+        <div class="link"></div>
+        <div class="step selected">
+          <div class="stepIcon"> <i class="fas fa-clipboard-check"></i> </div>
+          <span>Done</span>
+        </div>
+      </div>
+      <ion-row>
+        <ion-col size="12" class="ion-hide-md-up ion-text-center imageWrapper">
+          <img class="ion-margin-end" [src]="projectDraft.project.project_avatar"/>
+        </ion-col>
+        <ion-col size="12">
+          <h5><i class="fad fa-user-music play"></i><span class="colorPurple ml10">Project</span><span class="colorBlue ml10">Basics</span></h5>
+        </ion-col>
+        <ion-col size="12" sizeMd="6">
+          <ion-row>
+            <ion-col class="ion-no-margin" size="12">
+              <div class="title">
+                <ion-label><b>Project Title:</b> {{ projectDraft.project.project_title }}</ion-label>
+              </div>
+            </ion-col>
+            <ion-col class="ion-no-margin" size="12">
+              <div class="title">
+                <ion-label><b>Type:</b> {{ projectDraft.project.project_type }} </ion-label>
+              </div>
+            </ion-col>
+            <ion-col class="ion-no-margin" size="12">
+              <div class="title">
+                <ion-label><b>Release Date:</b>{{ projectDraft.project.project_date | date: 'MM/dd/yyyy' }}</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="projectDraft.project.project_genre">
+            <ion-col size="12">
+              <div class="title">
+                <ion-label><b>Genre:</b> {{ projectDraft.project.project_genre }}</ion-label>
+              </div>
+            </ion-col>
+            <ion-col size="12">
+              <div>
+                <ion-label><b>Subgenres:</b> </ion-label>
+                <ion-item lines="none">
+                  <ion-chip *ngFor="let sub of projectDraft.project.project_subgenres">
+                    <ion-label>{{ sub }}</ion-label>
+                  </ion-chip>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-margin-top">
+            <button nbButton (click)="edit(1)" status="primary" class="editButton">
+              <i class="fad fa-edit mr5"></i>Edit
+            </button>
+          </ion-row>
+        </ion-col>
+        <ion-col size="12" sizeMd="6" class="ion-no-margin ion-no-padding verticalCenterColumn horizontalCenterColumn">
+          <ion-label class="mb20"><b>Artwork</b> </ion-label>
+          <div class="imageWrapper">
+            <img [src]="projectDraft.project.project_avatar" />
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <ion-row class="ion-margin-bottom ion-margin-top horizontalCenterRow">
+            <button nbButton class="m5" (click)="saveDraft()" status="info">
+              <span class="gradientText verticalCenterRow"><i class="mr5 fal fa-save"></i>Save to Drafts</span>
+            </button>
+            <button nbButton class="m5" type="submit" (click)="onBtnSubmit()" status="primary">
+              Finish<i class="ml5 fas fa-arrow-right"></i>
+            </button>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

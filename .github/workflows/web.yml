@@ -1,0 +1,56 @@
+name: Web Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install -g @ionic/cli
+      - run: npm i -g cordova
+      - run: npm install
+      - run: ionic cordova build browser --confirm
+
+      - name: Zip Project
+        id: zip-project
+        run: zip -r deploy.zip . -x node_modules/**\* -x .git/**\*
+
+      - name: Get Commit Hash
+        id: version-hash
+        run: |
+          echo "::set-output name=hash::${GITHUB_SHA}"
+
+      - name: Save assets to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: arenaio-soundblock-console
+          AWS_ACCESS_KEY_ID: AKIA4HA6BMQTBMXJTE6G
+          AWS_SECRET_ACCESS_KEY: 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
+          AWS_REGION: 'us-east-1'
+          SOURCE_DIR: 'src/assets'
+          DEST_DIR: 'public/assets/${{ steps.version-hash.outputs.hash }}'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v10
+        with:
+          aws_access_key: AKIA4HA6BMQTBMXJTE6G
+          aws_secret_key: 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
+          application_name: Arena.Soundblock.Console
+          environment_name: Arena-Soundblock-Console
+          version_label: ${{ steps.version-hash.outputs.hash }}
+          region: us-east-1
+          deployment_package: deploy.zip

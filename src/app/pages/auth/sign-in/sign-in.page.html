@@ -1,0 +1,54 @@
+<div class="page-wrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <ion-row>
+        <ion-col size="12" sizeMd="4" class="right-panel horizontalCenterRow">
+          <img src="{{assetUrl}}/images/signin.png" />
+        </ion-col>
+        <ion-col size="12" sizeMd="8" class="left-panel verticalCenterColumn">
+          <ion-row class="horizontalCenterRow">
+              <h3 class="gradientText">Sign In</h3>
+          </ion-row>
+          <form #form="ngForm" (ngSubmit)="signIn(form)" class="feature signin-form">
+            <div class="feature-body">
+              <ion-row>
+                <ion-col size="12" size-md="6">
+                  <input type="email" id="email" class="form-input" name="email" required [(ngModel)]="email" placeholder="Username or Email" #emailModel="ngModel"
+                    [ngClass]="{'is-invalid': !emailModel.pristine && !emailModel.valid}" />
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                  <input id="password-field" name="password" [(ngModel)]="password" #passwordModel="ngModel" required type="password" class="form-input"
+                  minlength="6" placeholder="Password" [ngClass]="{ 'is-invalid':!passwordModel.pristine && !passwordModel.valid}" />
+                  <div class="eyeWrapper">
+                    <span onclick="viewPassword('password-field', 'pass-status')" id="pass-status" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row class="error" *ngIf="error">
+                <ion-col size="12">
+                  <span>Invalid user or password</span>
+                </ion-col>
+              </ion-row>
+              <ion-row class="more-actions mt15">
+                <ion-col size="12" sizeSm="6">
+                  <div class="forgot-password">
+                    <a class="redirect-links" (click)="navigate('password-recovery')">Forgot password?</a><br />
+                    <a class="redirect-links" (click)="navigate('signup')">Create New Account</a>
+                  </div>
+                </ion-col>
+                <ion-col class="ion-text-right verticalCenterRow horizontalCenterRow" size="6">
+                  <!-- <button nbButton shape="semi-round" class="transition-action signinBtn" type="submit" status="info">
+                    <span class="gradientText">SIGN IN</span></button> -->
+                  <button nbButton shape="semi-round" class="signinBtn" type="submit" status="primary">SIGN IN</button>
+                </ion-col>
+              </ion-row>
+            </div>
+          </form>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

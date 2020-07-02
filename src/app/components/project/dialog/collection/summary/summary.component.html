@@ -1,0 +1,74 @@
+<ion-card class="summaryDialog">
+  <ion-card-header>
+    <span>{{title}}</span>
+    <span><i class="fas fa-close" (click)="close()"></i></span>
+  </ion-card-header>
+  <ion-card-content>
+    <div class="uploadProgress" *ngIf="type == 'summary'">
+      <ion-row class="progressStatus">
+        <div *ngIf="transferService.progress != 100 && !transferService.uploadFailed">{{transferService.progress}}% Uploaded</div>  
+        <div *ngIf="transferService.progress == 100 && !transferService.uploadFailed">Upload finished</div>
+        <div class="retryButton" (click)="transferService.uploadAgain()">
+          <i class="fas fa-redo"></i><span class="ml5">Upload Again</span>
+        </div>
+      </ion-row>
+      <div class="progressBar">
+        <div class="current" [style.width.%]="transferService.progress"></div>
+      </div>
+    </div>
+    <div class="container">
+      <ion-row class="sectionTitle" *ngIf="title == 'Summary'">
+        Added Files
+      </ion-row>
+      <div *ngFor="let section of sections" class="full-width">
+        <ion-row *ngIf="list[section].length > 0">
+          <ion-col size="2" class="icon">
+            <i class="fad fa-list-music icon-colors" *ngIf="section == 'music'"></i>
+            <i class="fad fa-photo-video icon-colors" *ngIf="section == 'video'"></i>
+            <i class="fad fa-tags icon-colors-2" *ngIf="section == 'merch'"></i>
+            <i class="fad fa-folder-tree icon-colors" *ngIf="section == 'other'"></i>
+          </ion-col>
+          <ion-col size="10">
+            <div *ngFor="let file of list[section]" class="item">
+              <div class="name">{{file.file_name}}</div>
+              <div class="size">{{file.file_size | fileSize}}</div>
+            </div>
+          </ion-col>
+          <div class="divider"></div>
+        </ion-row>
+      </div>
+      <div *ngIf="title == 'Summary'">
+        <ion-row class="sectionTitle" *ngIf="discards.music.length + discards.video.length + discards.merch.length + discards.other.length > 0">
+          Discarded Files
+        </ion-row>
+        <div *ngFor="let section of sections" class="full-width">
+          <ion-row *ngIf="discards[section].length > 0">
+            <ion-col size="2" class="icon">
+              <i class="fad fa-list-music icon-colors" *ngIf="section == 'music'"></i>
+              <i class="fad fa-photo-video icon-colors" *ngIf="section == 'video'"></i>
+              <i class="fad fa-tags icon-colors-2" *ngIf="section == 'merch'"></i>
+              <i class="fad fa-folder-tree icon-colors" *ngIf="section == 'other'"></i>
+            </ion-col>
+            <ion-col size="10">
+              <div *ngFor="let file of discards[section]" class="item">
+                <div class="name">{{file.file_name}}</div>
+                <div class="size">{{file.file_size | fileSize}}</div>
+              </div>
+            </ion-col>
+            <div class="divider"></div>
+          </ion-row>
+        </div>
+      </div>
+    </div>
+    <ion-row class="horizontalCenterRow p10">
+      <ion-col size="6">
+        <button nbButton shape="semi-round" fullWidth status="info" type="button" (click)="submit()" *ngIf="type == 'summary'" [disabled]="transferService.progress != 100">
+          <span class="gradientText">Submit</span></button>
+        <button nbButton shape="semi-round" fullWidth status="info" type="button" (click)="clear()" *ngIf="type == 'view'">
+          <span class="gradientText">Clear</span></button>
+        <button nbButton shape="semi-round" fullWidth status="info" type="button" (click)="download()" *ngIf="type == 'download'">
+          <div class="gradientText verticalCenterRow"><i class="fas fa-download mr10 mb2"></i><span>Download</span></div></button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

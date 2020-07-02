@@ -1,0 +1,114 @@
+<div class="page-wrapper">
+  <div class="page-container">
+    <div class="stepper">
+      <div class="step selected">
+        <div class="stepIcon"> <i class="fas fa-cloud-music"></i> </div>
+        <span>Project</span>
+      </div>
+      <div class="link"></div>
+      <div class="step" (click)="onSubmit(form)">
+        <div class="stepIcon"> <i class="fas fa-clipboard-check"></i> </div>
+        <span>Done</span>
+      </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="content-wrapper border-bottom">
+      <ion-row class="projectForm" id="projectInfoSection">
+        <ion-col size="12" sizeLg="7" class="ion-no-padding">
+          <div class="heading"> Service Account </div>
+          <div class="sectionBody">
+            <ion-row class="ion-margin-bottom">
+              <ion-col size="12" sizeSm="6">
+                <nb-select class="customSelect" required name="service" formControlName="service"
+                  [ngClass]="{'is-invalid': !f.service.valid && (f.service.dirty || submitted || draftSaved)}">
+                  <nb-option *ngFor="let service of services" [value]="service.service.service_name"
+                    (click)="selectService(service)">
+                    {{service.service.service_name}}
+                  </nb-option>
+                </nb-select>
+              </ion-col>
+              <ion-col size="12" sizeSm="6">
+                <div *ngIf="!f.service.valid && (f.service.dirty || submitted || draftSaved)"
+                  class="alert alert-danger">Service is required</div>
+              </ion-col>
+              <ion-col size="12">
+                <div class="createServiceLink">
+                  <span class="mr5">Create your own account?</span><button nbButton class="default blue" (click)="navigatePage('settings', { page: 'Upgrade' })">Create</button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div class="heading"> Project Basics </div>
+          <div class="sectionBody">
+            <ion-row class="ion-margin-bottom">
+              <ion-col size="12">
+                <div class="ion-margin-bottom">
+                  <ion-label>Project Title:</ion-label>
+                </div>
+                <input autocomplete="off" class="form-input" name="title" formControlName="title" minlength="3" required
+                  [ngClass]="{'is-invalid': !f.title.valid && (f.title.dirty || submitted)}" />
+                <div *ngIf="!f.title.valid && (f.title.dirty || submitted)" class="alert alert-danger">
+                  Title is required and should be at least 3 characters
+                </div>
+              </ion-col>
+              <ion-col size="12" sizeSm="6">
+                <div class="ion-margin-bottom">
+                  <ion-label>Type:</ion-label>
+                </div>
+                <nb-select name="type" formControlName="type" class="customSelect" required
+                  [ngClass]="{'is-invalid': !f.type.valid && (f.type.dirty || submitted)}">
+                  <nb-option *ngFor="let type of types" [value]="type">{{type}}</nb-option>
+                </nb-select>
+                <div *ngIf="!f.type.valid && (f.type.dirty)" class="alert alert-danger">Type is required</div>
+              </ion-col>
+              <ion-col size="12" sizeSm="6">
+                <div class="ion-margin-bottom">
+                  <ion-label>Select a Date: </ion-label>
+                </div>
+                <input class="form-input datatime" name="releaseDate" formControlName="releaseDate" required
+                  [nbDatepicker]="formpicker" [readOnly]="true"
+                  [ngClass]="{'is-invalid': !f.releaseDate.valid && (f.releaseDate.dirty || submitted)}" />
+                <nb-datepicker #formpicker></nb-datepicker>
+                <div *ngIf="!f.releaseDate.valid && (f.releaseDate.dirty || submitted)" class="alert alert-danger">
+                  Release Date is required
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-margin-bottom ion-padding-bottom  borderBottom">
+              <ion-col size="12" sizeSm="6">
+                <div class="ion-margin-bottom">
+                  <ion-label for="genre">Genres</ion-label>
+                </div>
+                <nb-select name="genre" formControlName="genre" class="customSelect">
+                  <nb-option *ngFor="let genre of genres;" [value]="genre.name">{{genre.name}}</nb-option>
+                </nb-select>
+                <div class="alert alert-danger" *ngIf="false">Genre is required</div>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+        <ion-col size="12" sizeLg="5" class="uploadArtworkPanel verticalCenterRow">
+          <div class="imageDiv">
+            <div class="imageWrapper">
+              <img [src]="artworkPath" />
+            </div>
+            <input type="file" name="artwork" id="artwork" class="inputfile" (change)="uploadArtwork($event, form)" />
+            <button nbButton shape="semi-round" fullWidth type="button" [disabled]="!f.service.value" status="primary"
+              onclick="document.getElementById('artwork').click()">
+              Upload Artwork</button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="buttons ion-margin-bottom ion-margin-top horizontalCenterRow">
+        <button nbButton class="m5" status="info" (click)="saveDraft(form)">
+          <span class="gradientText verticalCenterRow"><i class="mr10 mt1 fal fa-save"></i>Save to
+            Drafts</span></button>
+        <button nbButton routerDirection="forward" type="submit" status="primary" class="m5">
+          {{ returnUrl ? 'Save & Confirm' : 'Save & Next Step' }}<i class="ml10 mt1 fas fa-arrow-right"></i>
+        </button>
+      </ion-row>
+    </form>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>

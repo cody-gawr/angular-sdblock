@@ -1,0 +1,95 @@
+
+.page-wrapper {
+    .content-wrapper { position: relative; padding: 0; width: 100%; 
+        .mainContent { position: relative;
+            .projectTitle { font-size: 1.3rem; font-weight: 700; color: #782c7f; }
+            .category { display: flex; justify-content: center;
+                .categoryButton { width: 25%; height: 100px; border-style: solid; border-color: #518DC9 #518DC9 #782c7f #782c7f; border-width: 2px; border-radius: 10px;
+                    display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 15px; cursor: pointer; 
+                    @media screen and (max-width: 767px){
+                        width: 25%; height: 80px; margin: 5px;
+                    }
+                    i { font-size: 1.7rem; }
+                    p { margin: 5px 0 0 0; text-transform: uppercase; font-weight: bold; border-bottom: solid 2px white;}
+                    &:hover {
+                        p { border-bottom: solid 2px black; }
+                    }
+                    &.active { border-width: 0; background: linear-gradient(225deg, #518DC9 0%, #782c7f 100%);
+                        i { color: white;}
+                        p { color: white; font-weight: bold; border-bottom: solid 2px transparent;}
+                        &:hover {
+                            p { border-bottom: solid 2px white; }
+                        }
+                    }
+                    &.disable { background: #eeeeee; cursor: not-allowed;
+                        p { border-bottom: solid 2px #eeeeee; }
+                    }
+                }
+            }
+            .metaWrapper { display: flex; justify-content: space-around;
+                p { margin: 0;}
+            }
+            .breadcrumbHeader { padding: 0 20px;
+                @media(max-width: 767px) { padding: 0 10px; }
+                .breadcrumbRow { padding: 10px 0;
+                    @media(max-width: 767px) { padding: 5px 0; }
+                    ul.breadcrumb { list-style: none; flex: 1; margin: 0;
+                        li { display: inline; text-decoration: none; cursor: pointer; position: relative !important; font-size: 1rem;
+                            a { color: #518DC9; text-decoration: none;
+                                &:hover { color: #782c7f; text-decoration: underline; }
+                            }
+                        }
+                        li + li:before { padding: 8px; color: #782c7f; font-family: 'Font Awesome 5 Pro'; font-weight: 900; content: '\f324'; }
+                        span { color: #518DC9; cursor: default;}
+                    }
+                    .historyButton { width: 100px; height: 28px; padding: 0; border-radius: 7px !important; font-size: 0.8rem; }
+                }
+                .infoWrapper { color: #518DC9; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; width: 100%;
+                    @media(max-width: 767px) { padding: 5px 0; }
+                    nb-alert { margin: 0; padding: 3px 10px; display: inline; font-size: 0.8rem; text-transform: uppercase; 
+                        &.backgroundPurple { background-color: #782c7f; color: whitesmoke;}
+                    }
+                }
+                .checkedFilesLink { color: #518DC9; cursor: pointer;
+                    &:hover { color: #782c7f; }
+                }
+            }
+            
+            .feature-body { padding: 0 15px;
+                @media (max-width: 767px){
+                    padding: 0 5px;
+                }
+                .controlGroup {
+                    button { width: 160px; font-size: 0.7rem; padding: 8px; border-radius: 8px; margin-top: 5px; 
+                        i { font-size: 0.9rem; color: white; opacity: 1;}
+                    }
+                    .right { position: relative; float: right; }
+                    .left { position: relative; float: left;
+                        button { width: 120px; margin-right: 10px; }
+                    }
+                }
+                .tableWrapper {
+                    padding: 5px;
+                }
+                .createStep { padding: 10px;
+                    ion-row { padding: 10px 5px; }
+                    a { font-size: 1.1rem; }
+                    .heading { font-size: 1.1rem; }
+                    .agreeStatus { padding-left: 30px; font-size: 1rem; }
+                    .uploadButton { color: #fff; width: 150px; height: 35px; padding: 0; margin: 10px 30px;}
+                }
+            }
+            a { font-size: 0.95rem; padding: 0;}
+        }
+        .sidemenu { position: absolute; right: 0; height: 100%; width: 270px; top: 0; border-bottom-width: 1px;
+            @media screen and (max-width: 767px) {
+                width: 0; border-width: 0;
+            }
+        }
+    }
+}
+.menuExpand { margin-right: 270px; 
+    @media screen and (max-width: 767px) {
+        margin-right: 0px;
+    }
+}

@@ -1,0 +1,97 @@
+.recentPanel { font-size: 15px;
+    .breadcrumbHeader {
+        .breadcrumbRow { padding: 0.5rem 0;
+            ul.breadcrumb { list-style: none; flex: 1; margin: 0; padding: 0;
+                li { display: inline; text-decoration: none; cursor: pointer; position: relative !important; font-size: 1rem;
+                    a { color: #518DC9; text-decoration: none;
+                        &:hover { color: #782c7f; text-decoration: underline; }
+                    }
+                }
+                li + li:before { padding: 8px; color: #782c7f; font-family: 'Font Awesome 5 Pro'; font-weight: 900; content: '\f324'; }
+                span { color: #518DC9; cursor: default;}
+            }
+            .historyButton { width: 100px; height: 28px; padding: 0; border-radius: 7px !important; font-size: 0.8rem; }
+        }
+        .infoWrapper { color: #518DC9; padding: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; width: 100%;
+            nb-alert { margin: 0; padding: 3px 10px; display: inline; font-size: 0.8rem; text-transform: uppercase; 
+                &.backgroundPurple { background-color: #782c7f; color: whitesmoke;}
+            }
+        }
+        .checkedFilesLink { color: #518DC9; cursor: pointer;
+            &:hover { color: #782c7f; }
+        }
+    }
+    .controlGroup { display: flex; justify-content: space-between; margin-bottom: 10px;
+        i { font-size: 1rem; color: black; opacity: 1;}
+        button {  font-size: 0.8rem; padding: 8px; border-radius: 8px; margin-top: 5px; }
+        .left { flex: 1; display: flex; 
+            button { height: 35px; width: 33%; max-width: 80px; margin-right: 5px; padding: 0; }
+        }
+        .right { flex: 1.5  ; display: flex; flex-direction: row-reverse;
+            button { height: 35px; max-width: 140px; margin-left: 5px;  width: 50%;
+                .plus { padding-bottom: 2px; }
+                i { margin-top: 1px; margin-right: 5px; }
+            }   
+        }
+    }
+    img { height: 30px; margin-right: 10px; border-radius: 5px;}
+    .backgroundRed { color: red; }
+    .backgroundBlue { color: blue; }
+    .desktopTable { 
+        i { color: black; width: 25px; font-size: 25px; }
+        ion-col { display: flex; display: flex; align-items: center; 
+            span { margin-right: 10px;}
+        }
+        .row-highlight { cursor: pointer;
+            &:hover {
+                background-color: #edf1f7b7;
+            }
+        }
+        .tableHeader { background: linear-gradient(90deg, #518DC9 0%, #782c7f 100%); color: white; font-size: 1rem;
+            ion-col { padding: 15px 5px; }
+        }
+        .tableBody {
+            div { display: flex; }
+            .actionIcon { font-size: 18px; width: 18px;
+                &.fa-info-circle { font-size: 20px; padding-top: 2px;}
+                &:hover {
+                    transform: scale(1.05) !important;
+                }
+            }
+            .fileIcon { width: 35px; font-size: 30px; margin: auto; padding-top: 2px;}
+            .verticalCell { display: flex; flex-direction: column; flex: 1;
+                span { padding: 2px 0; display: flex; align-items: center; width: fit-content;
+                    img { height: 20px; border-radius: 10px; margin-right: 5px;}
+                }
+            }
+            .fileInfoWrapper { flex-wrap: wrap; 
+                .filename { color: #606060; font-size: 0.8rem; }
+                .fileSize { font-size: 0.8rem; color: gray;}
+            }
+        }
+    }
+    .mobileTable { font-size: 14px;
+        ion-col { padding: 10px 5px;
+            span { margin-right: 10px;}        
+        }
+        .backgroundGray {
+            background-color: rgba(0,0,0,.05);
+        }
+        .contentWrapper { padding: 0; 
+            ion-col { display: flex; flex-direction: row; align-items: center; }
+            .fileIcon { width: 35px; font-size: 1.8rem; }
+            .avatar { height: 20px; border-radius: 10px; margin-right: 5px;}
+            .actions { display: flex; width: 100%; flex-direction: row-reverse;
+                i { font-size: 1.2rem; max-width: 35px; flex: 1;
+                    // &.fa-info-circle { font-size: 23px; }
+                }
+            }
+            .actionIcon { font-size: 20px; width: 20px; display: flex;
+                &.fa-info-circle { font-size: 23px; }
+                &:hover {
+                    transform: scale(1.05) !important;
+                }
+            }
+        }
+    }
+}

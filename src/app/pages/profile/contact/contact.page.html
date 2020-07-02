@@ -1,0 +1,64 @@
+<div class="page-wrapper">
+  <div class="page-container">
+      <div class="content-wrapper">
+        <app-profile-header tab="3"></app-profile-header>
+        <ion-row class="heading">
+          <p>Please provide your <span>contact information</span> below.</p>
+        </ion-row>
+        <ion-row class="ion-margin-bottom" *ngIf="profileObs | async; else loading;">
+          <ion-col size="12" sizeMd="6" class="panel">
+            <div class="panelContainer bluePane">
+              <div class="sectionTitle">
+                <span class="gradientText">EMAIL</span>
+              </div>
+              <div class="addEmailForm">
+                <input autocomplete="off" class="form-input mr10" [(ngModel)]="email" name="email" #emailInput="ngModel" [pattern]="emailRegEx"
+                [ngClass]="{'is-invalid': !emailInput.valid}"/>
+                <button nbButton class="default" (click)="addEmail()"> Add </button>
+              </div>
+              <ion-radio-group [(ngModel)]="primaryEmail">
+                <ion-row class="item"  *ngFor="let item of emails; let i = index">
+                  <ion-radio class="mr10" [value]="item" *ngIf="item.flag_verified" (ionFocus)="setPrimaryEmail(item)"></ion-radio>
+                  <span class="data">{{item.user_auth_email}}</span>
+                  <button nbButton class="default blue" (click)="verifyEmail(item)" *ngIf="!item.flag_verified">Verify</button>
+                  <button nbButton class="default purple" (click)="deleteEmail(item)" *ngIf="!item.flag_primary">Delete</button>
+                </ion-row>
+              </ion-radio-group>
+            </div>
+          </ion-col>
+          <ion-col size="12" sizeMd="6" class="panel">
+            <div class="panelContainer purplePane">
+              <div class="sectionTitle">
+                <span class="gradientText">PHONE</span>
+              </div>
+              <div class="addPhoneForm">
+                <nb-select class="phoneTypeSelect" [(ngModel)]="type" required>
+                  <nb-option *ngFor="let item of phoneTypes" [value]="item"> {{item}} </nb-option>
+                </nb-select>
+                <input autocomplete="off" class="form-input" name="phones" [(ngModel)]="phone" required/>
+                <button nbButton class="m10 default" (click)="addPhone()"> Add </button>
+              </div>
+              <ion-radio-group [(ngModel)]="primaryPhone">
+                <ion-row class="item"  *ngFor="let item of phones; let i = index">
+                  <ion-radio class="mr10" [value]="item" (ionFocus)="setPrimaryPhone(item)"></ion-radio>
+                  <span class="type"><b>{{item.phone_type}}</b></span>
+                  <span class="data">{{item.phone_number}}</span>
+                  <button nbButton class="default purple" (click)="deletePhone(item)" *ngIf="!item.flag_primary">Delete</button>
+                </ion-row>
+              </ion-radio-group>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div class="page-footer">
+        <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="asyncLoading">
+    <ion-spinner name="lines"></ion-spinner>
+    <span class="ml10">Loading Contact Data...</span>
+  </div>
+</ng-template>

@@ -1,0 +1,77 @@
+<ion-card class="modifyContractDialog">
+  <ion-card-header>
+    <span>Modify Contract</span>
+    <span><i class="fas fa-close" (click)="close()"></i></span>
+  </ion-card-header>
+  <ion-card-content>
+    <div class="container">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)" (keydown.enter)="$event.preventDefault()">
+        <ion-row class="content">
+          <ion-col size="12" sizeLg="8" class="left-panel">
+            <ion-row class="payoutWarning">
+              <ion-col size="12" *ngIf="wrongValue">
+                <nb-alert status="danger">Wrong Payout Values, Allocation should be <= 100 </nb-alert>
+              </ion-col>
+              <ion-col size="12" *ngIf="!payoutFull">
+                <nb-alert status="danger">Payout is not allocated.</nb-alert>
+              </ion-col>
+            </ion-row>
+            <div id="paymentSection" formArrayName="members" class="payoutBody">
+              <ion-row [formGroupName]="index" *ngFor="let fg of formMembers.controls; let index = index" class="ion-margin-bottom">
+                <ion-col size="12" sizeSm="6" sizeLg="3">
+                  <ion-label class="hideLabel-up" for="name">Name</ion-label>
+                  <input required autocomplete="off" class="form-input" formControlName="name" name="name" (change)="onPayout(fg, index)" (focusout)="onPayout(fg, index)" 
+                    [ngClass]="{'is-invalid': (fg.controls.name.touched || submitted) && !fg.controls.name.valid}" />
+                </ion-col>
+  
+                <ion-col size="12" sizeSm="6" sizeLg="3">
+                  <ion-label class="hideLabel-up" for="email">Email</ion-label>
+                  <input required autocomplete="off" class="form-input" formControlName="email" name="email" (change)="onPayout(fg, index)" (focusout)="onPayout(fg, index)"
+                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{1,}[.]{1}[a-zA-Z]{2,}"
+                    [ngClass]="{'is-invalid': (fg.controls.email.touched || submitted) && !fg.controls.email.valid}"  />
+                </ion-col>
+                <ion-col size="6" sizeLg="3">
+                  <ion-label class="hideLabel-up" for="role">Role</ion-label>
+                  <nb-select required class="custom-select selectRole" formControlName="role" name="role" [(selected)]="fg.controls.role.value"
+                    [ngClass]="{'is-invalid': (fg.controls.role.touched || submitted) && !fg.controls.role.valid}">
+                    <nb-option *ngFor="let role of roles" (focusout)="onPayout(fg, index)" (change)="onPayout(fg, index)" [value]="role" (click)="onPayout(fg, index)">
+                      {{ role }}</nb-option>
+                  </nb-select>
+                </ion-col>
+                <ion-col size="6" sizeLg="3">
+                  <ion-label class="hideLabel-up" for="payout">Payout</ion-label>
+                  <ion-row>
+                    <ion-col size="9" class="ion-no-padding">
+                      <div class="payoutInput">
+                        <input type="number" required autocomplete="off" class="form-input" formControlName="payout" name="payout" (change)="onPayout(fg, index)"
+                          [ngClass]="{'is-invalid': (fg.controls.payout.touched || submitted) && !fg.controls.payout.valid}" pattern="[0-9]+"/>
+                        <span class="percentage">%</span>
+                      </div>
+                    </ion-col>
+                    <ion-col size="3" class="deleteBtn" (click)="deleteMember(index)">
+                      <i class="fas fa-close"></i>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </div>
+            <button status="primary" class="default blue addBtn" (click)="addMember()">
+              <i class="fas fa-plus"></i><span>Add Member</span>
+            </button>
+          </ion-col>
+          <ion-col size="12" sizeLg="4" class="right-panel">
+            <div class="imageDiv">
+              <app-chart id="{{projectId}}"></app-chart>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="buttons ion-margin-bottom ion-margin-top horizontalCenterRow">
+          <button nbButton type="submit" status="info" class="m5">
+            <span class="gradientText">Save</span>
+          </button>
+        </ion-row>
+      </form>
+      
+    </div>
+  </ion-card-content>
+</ion-card>

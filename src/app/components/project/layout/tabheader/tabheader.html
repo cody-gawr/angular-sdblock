@@ -1,0 +1,27 @@
+<div class="projectTab">
+    <button class="tablinks" (click)="navigate()" [ngClass]="{'active': tab == 'project'}">
+        <div class="wrapper">
+            <i class="fad fa-list-music"></i><span>Project</span>
+        </div>
+        <div class="border"></div>
+    </button>
+    <button class="tablinks" (click)="navigate('contract')" [ngClass]="{'active': tab == 'contract'}">
+        <div class="wrapper">
+            <i class="fad fa-handshake"></i><span>Contract</span>
+        </div>
+        <div class="border"></div>
+    </button>
+    <button class="tablinks" (click)="navigate('deployments')" [ngClass]="{'active': tab == 'deployments'}">
+        <div class="wrapper">
+            <i class="fad fa-clouds"></i><span class="hide-sm hide-md hide-vl hide-lg hide-xl">Deploy</span>
+            <span class="hide-xs hide-vs">Deployments</span>
+        </div>
+        <div class="border"></div>
+    </button>
+    <button class="tablinks" (click)="navigate('team')" [ngClass]="{'active': tab == 'team'}">
+        <div class="wrapper">
+            <i class="fad fa-users"></i><span>Team</span>
+        </div>
+        <div class="border"></div>
+    </button>
+</div>

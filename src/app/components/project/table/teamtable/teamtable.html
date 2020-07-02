@@ -1,0 +1,160 @@
+<div class="container">
+  <ion-row class="title ml10">
+    <!-- <p>{{data.name}}</p> -->
+  </ion-row>
+  <ion-row class="content">
+    <ion-col size="12" sizeMd="12" class="table">
+      <ion-row>
+        <ion-col size="12">
+          <div class="gradientTable">
+            <div class="tableHeader">
+              <ion-row class="rowWrapper">
+                <ion-col size="5">Name</ion-col>
+                <ion-col size="5">Role</ion-col>
+                <ion-col size="2" ></ion-col>
+              </ion-row>
+            </div>
+            <div class="tableBody" *ngFor="let member of team.users; let index = index;">
+              <ion-row class="rowWrapper">
+                <ion-col size="5">{{member.name}}</ion-col>
+                <ion-col size="5">{{member.user_role}}</ion-col>
+                <ion-col class="actionCol" size="2">
+                  <i class="fad fa-edit icon-colors" nbTooltip="Edit Permission" nbTooltipPlacement="top" nbTooltipStatus="info" 
+                    *ngIf="!member.is_owner" (click)="editPermission(permissionDialog, member)"></i>
+                  <i class="fad fa-trash-alt active" nbTooltip="Delete Member" nbTooltipPlacement="top" nbTooltipStatus="info" 
+                    (click)="deleteMember($event, index)" *ngIf="member.user_payout == 0"></i>
+                  <i class="fas fa-crown crownIcon" *ngIf="member.is_owner" nbTooltip="Project Owner" nbTooltipPlacement="top" nbTooltipStatus="info"></i>
+                </ion-col>
+              </ion-row>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" sizeSm="3" offsetSm="9" class="p15">
+          <button nbButton shape="semi-round" type="button" fullWidth status="info" (click)="showMemberDialog(memberDialog)">
+            <div class="gradientText verticalCenterRow">
+              <i class="mr10 fas fa-user-plus"></i><span> Add Member </span>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</div>
+
+<!-- Create new team member dialog -->
+<ng-template #memberDialog let-data let-ref="dialogRef">
+  <form #form="ngForm" (ngSubmit)="setPermission(ref, permissionDialog, form)" class="dialogForm">
+    <ion-card>
+      <ion-card-header>
+        <span>Add New Member</span>
+        <i class="fas fa-close" (click)="closeDialog(ref)"></i>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row class="ion-padding content">
+          <ion-col size="12">
+            <div>Name: </div>
+            <div>
+              <input type="text" name="name" [(ngModel)]="newMember.name" #name="ngModel" required class="form-input" placeholder="Name" 
+              [ngClass]="{'is-invalid': (name.touched || form.submitted) && !name.valid}"/>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div>Email: </div>
+            <div>
+              <input type="email" name="email" [(ngModel)]="newMember.user_auth_email" [pattern]="emailRegEx" required class="form-input" placeholder="Email" #email="ngModel"
+                [ngClass]="{'is-invalid': (!email.pristine || form.submitted) && !email.valid}"/>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div>User Role: </div>
+            <div class="ion-mading-start selectWrapper">
+              <nb-select name="role" class="custom-select role" required [(ngModel)]="newMember.user_role" placeholder="Role" #role="ngModel"
+              [ngClass]="{'is-invalid': (!role.pristine || form.submitted) && !role.valid}">
+                <nb-option *ngFor="let role of roles" [value]="role">
+                  {{ role }}</nb-option>
+              </nb-select>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="p10">
+          <ion-col size="6" offset="3">
+            <button nbButton shape="semi-round" fullWidth status="info" type="submit"><span class="gradientText">Set Permission</span> </button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ng-template>
+
+<ng-template #permissionDialog let-data let-ref="dialogRef">
+  <ion-card class="permissionDialog">
+    <ion-card-header>
+      <span *ngIf="!isNewMember">Edit Permission</span>
+      <span *ngIf="isNewMember">Set Permission</span>
+      <i class="fas fa-close" (click)="closeDialog(ref)"></i>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="content">
+        <div class="projectTab">
+          <button class="tablinks" (click)="selectTab(0)" [ngClass]="{'active': permissionTab == 0}">
+              <div class="wrapper"><i class="fad fa-users icon-colors mr5 mb1"></i>Account</div>
+              <div class="border"></div>
+          </button>
+          <button class="tablinks" (click)="selectTab(1)" [ngClass]="{'active': permissionTab == 1}">
+              <div class="wrapper"><i class="fad fa-photo-video icon-colors mr5 mb1"></i>File</div>
+              <div class="border"></div>
+          </button>
+          <button class="tablinks" (click)="selectTab(2)" [ngClass]="{'active': permissionTab == 2}">
+              <div class="wrapper"><i class="fad fa-user-chart icon-colors mr5 mb1"></i>Reports</div>
+              <div class="border"></div>
+          </button>
+        </div>
+        <div class="tab" *ngIf="permissionTab == 0">
+          <ion-row size="12"> 
+            <ion-checkbox [(ngModel)]="permission.createProject" name="createProject"></ion-checkbox><span>Create New Project</span>
+          </ion-row>
+          <ion-row size="12">
+            <ion-checkbox [(ngModel)]="permission.deployPlatform" name="deployPlatform"></ion-checkbox><span>Deploy to Platform</span>
+          </ion-row>
+          <ion-row size="12"> 
+            <ion-checkbox [(ngModel)]="permission.addMember" name="addMember"></ion-checkbox><span>Add Team Member</span>
+          </ion-row>
+          <ion-row size="12"> 
+            <ion-checkbox [(ngModel)]="permission.deleteMember" name="deleteMember"></ion-checkbox><span>Delete Team Member</span>
+          </ion-row>
+          <ion-row size="12">
+            <ion-checkbox [(ngModel)]="permission.changePermission" name="changePermission"></ion-checkbox><span>Change Permissions</span>
+          </ion-row>
+        </div>
+        <div class="tab fileTab" *ngIf="permissionTab == 1">
+          <ion-row *ngFor="let section of sections;">
+            <ion-col size="2" class="sectionTitle"><span>{{section}}:</span></ion-col>
+            <ion-col size="10" class="sectionBody">
+              <ion-row class="wrapper">
+                <ion-col size="6" sizeMd="4" *ngFor="let subPermission of subPermissions;">
+                  <ion-checkbox [(ngModel)]="permission[section.toLowerCase()][subPermission.toLowerCase()]" name="{{section + subPermission}}"></ion-checkbox><span>{{subPermission}}</span>
+                </ion-col> 
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div class="tab" *ngIf="permissionTab == 2">
+          <ion-row size="12"> 
+            <ion-checkbox [(ngModel)]="permission.accountPayment" name="accountPayment"></ion-checkbox><span>Account Payments</span>
+          </ion-row>
+          <ion-row size="12">
+            <ion-checkbox [(ngModel)]="permission.auditLog" name="auditLog"></ion-checkbox><span>Audit Log</span>
+          </ion-row>
+        </div>
+      </div>
+      <ion-row class="p10">
+        <ion-col size="6" offset="3">
+          <button nbButton shape="semi-round" fullWidth status="info" (click)="savePermission(ref)" *ngIf="!isNewMember"><span class="gradientText">Submit</span></button>
+          <button nbButton shape="semi-round" fullWidth status="info" (click)="addMember(ref)" *ngIf="isNewMember"><span class="gradientText">Submit</span></button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ng-template>

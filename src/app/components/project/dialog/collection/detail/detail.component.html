@@ -1,0 +1,88 @@
+<ion-card class="metaDialogBody">
+  <ion-card-header>
+    <span> {{getDialogTitle()}} </span>
+    <span><i class="fas fa-close" (click)="close()"></i></span>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row class="container">
+      <ion-col size="12" *ngIf="category == 'Music' && action == 'Add'">
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+          <div *ngFor="let file of files; let i = index" class="trackItem">
+            <ion-reorder slot="start" class="reorder"></ion-reorder>
+            <div class="file"><span>{{ i + 1 }}</span></div>
+            <div class="contentWrapper">
+              <div class="title">
+                Title: 
+                <input placeholder="Title" autocomplete="off" type="text" (keyup)="onTitleChange(file)" [(ngModel)]="file.file_title"/>
+              </div>
+              <div class="verticalCenterRow fileInfo">
+                <div class="name">File: {{file.file_name}}</div>
+                <div class="size">{{ file.file_size | fileSize }}</div>
+              </div>
+            </div>
+          </div>
+        </ion-reorder-group>
+      </ion-col>
+      <ion-col size="12" *ngIf="category != 'Music' || action == 'Edit'">
+        <div class="fileInfoList" *ngFor="let file of files; let index = index">
+          <div class="wrapper">
+            <div class="fileInfo m5" [ngClass]="{'videoFile': file.file_category == 'video'}">
+              <span>File</span>
+              <div class="fileBody">
+                <input type="text" (change)="onNameChange($event, file)" [value]="getFileName(file.file_name)" name="title" class="form-input" 
+                  [readOnly]="file.file_category == 'music'"/>
+                <span class="fileSize">{{ file.file_size | fileSize }}</span>
+              </div>
+            </div>
+            <div class="title m5">
+              <span>Title</span>
+              <input placeholder="" type="text" (keyup)="onTitleChange(file)" [(ngModel)]="file.file_title" name="title" class="form-input"/>
+            </div>
+            <div class="track m5" *ngIf="file.file_category == 'video'">
+              <span>Track</span>
+              <nb-select name="track" class="custom-select track" required [(ngModel)]="file.trackName" placeholder="Track">
+                <nb-option *ngFor="let track of tracks" [value]="track.file_title" (click)="onClickVideoTrack(file, track)">
+                  {{ track.file_title }}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="delete m5 verticalCenterRow" *ngIf="action == 'Add'">
+            <i class="fad fa-trash-alt" (click)="deleteAttachment(file)"></i>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="p10 full-width">
+      <ion-row class="p10">
+        <ion-textarea class="form-textarea" rows="6" name="comment" [(ngModel)]="comment" placeholder="Share Comment for Team Members" #commentInput></ion-textarea>
+      </ion-row>
+      <ion-row *ngIf="action == 'Add'">
+        <ion-col size="6" class="horizontalCenterRow">
+          <button nbButton shape="semi-round" fullWidth status="info" (click)="discard()">
+            <div class="gradientText">Discard</div>
+          </button>
+        </ion-col>
+        <ion-col size="6" class="horizontalCenterRow">
+          <button nbButton shape="semi-round" fullWidth status="primary" (click)="saveNext()">
+            Save & Next
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="action == 'Edit'">
+        <ion-col size="6" offset="3" class="horizontalCenterRow">
+          <button nbButton shape="semi-round" fullWidth status="primary" (click)="save()">
+            Save
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
+    <ion-row *ngIf="transferService.uploadFailed" >
+      <div class="retryButton" (click)="transferService.uploadAgain()">
+        <i class="fas fa-redo"></i><span class="ml5">Upload Again</span>
+      </div>
+    </ion-row>
+    <div class="progressBar" *ngIf="action == 'Add'">
+      <div class="current" [style.width.%]="transferService.progress" [ngClass]="{'success': !transferService.uploadFailed, 'failed': transferService.uploadFailed}"></div>
+    </div>
+  </ion-card-content>
+</ion-card>

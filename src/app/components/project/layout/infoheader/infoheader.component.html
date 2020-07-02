@@ -1,0 +1,57 @@
+<div class="infoHeader" (click)="openDialog(artworkDialog)">
+    <div class="container">
+        <div class="artwork">
+            <img [src]="artwork"/>
+        </div>
+        <div class="metaInfo">
+            <div class="top">
+                <div class="gradientText"><b>{{project?.service?.data?.service_name}}</b></div>
+                <div><b>{{project?.project_title}}</b></div>    
+            </div>
+            <div class="bottom">
+                <div>{{project?.genre}}</div>
+                <div>{{project.stamp_created | date:'MM/dd/yyyy'}}</div>
+                <div>{{project.project_upc}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #artworkDialog let-data let-ref="dialogRef">
+    <ion-card class="artworkDialog">
+        <ion-card-header>
+        <span>Project Info</span>
+        <span><i class="fas fa-close" (click)="closeDialog(ref)"></i></span>
+        </ion-card-header>
+        <ion-card-content>
+            <div class="container">
+                <div class="artwork">
+                    <img [src]="artwork"/>
+                    <button nbButton status="info" onclick="document.getElementById('editArtwork').click()">
+                        <div class="gradientText">
+                            Edit
+                        </div>
+                    </button>
+                    <input type="file" name="file" id="editArtwork" class="inputfile" (change)="updateArtwork($event)" />
+                </div>
+                <div class="metaInfo">
+                    <div class="row">
+                        Artist: <div class="gradientText ml10"><b>{{project?.service?.data?.service_name}}</b></div>
+                    </div>
+                    <div class="row">
+                        Title: <div class="ml10"><b>{{project?.project_title}}</b></div>    
+                    </div>
+                    <div class="row">
+                        Genre: <div class="ml10">{{project?.genre}}</div>
+                        
+                    </div>
+                    <div class="row">
+                        Upce: <div class="ml10">{{project.upc}}</div>
+                    </div>
+                    <div class="row">
+                        Released at: <div class="ml10">{{project?.stamp_created | date:'MMMM d, y'}}</div>
+                    </div>
+                </div>
+            </div>
+        </ion-card-content>
+    </ion-card>
+</ng-template>

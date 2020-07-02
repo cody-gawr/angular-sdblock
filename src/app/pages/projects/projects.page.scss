@@ -1,0 +1,59 @@
+.page-wrapper {
+    .content-wrapper { display: flex; padding: 0; 
+        .projectList { width: 60%; padding: 30px;
+            .sectionTitle { color: #782c7f; font-size: 1.4rem; padding: 10px; font-weight: bold;}
+            .newProject { padding: 10px 0;
+                button { height: 40px; width: 200px;}
+            }
+            @media (min-width: 0px) and (max-width: 767px) { padding: 10px; width: 100%;
+                .album {cursor: pointer; margin-bottom: 20px; outline: none; box-shadow: 2px 5px 5px 0 #00000030; border-radius: 2px; padding: 0;
+                    .artwork { display: flex; align-items: center; 
+                        img { width: 100%; object-fit: contain; height: auto; border-radius: 2px; box-shadow: 0px 2px 2px 0 #00000050; }
+                    }
+                    .metaInfo { display: flex; flex: 1; padding: 15px; flex-direction: column;
+                        .albumTitle { font-size: 1rem; font-weight: bold; color: #8c6eab; margin-bottom: 5px; }
+                        .metaTop { display: flex; justify-content: space-between;}
+                    }
+                    .platformIcons { padding: 10px 0;
+                        img { width: 50px; margin: 0 5px; }
+                    }
+                    .projectStatus {
+                        .statusCard { padding: 1px 5px; color: white; font-size: 10px; text-transform: uppercase; border-radius: 2px; font-weight: bold; margin: 0 5px;
+                            &.blue { background: #518DC9; }
+                            &.gradient { background: linear-gradient(90deg, #518DC9 0%, #782c7f 100%); }
+                            &.purple { background: #8c6eab; }
+                            i { margin-right: 3px; }
+                        }
+                    }
+                    p { padding: 2px 0; margin: 0; }
+                }
+            }
+            @media (min-width: 768px){
+                .album { display: flex; cursor: pointer; margin-bottom: 20px; outline: none; box-shadow: 0 5px 5px 0 #8c6eab30;
+                    border-radius: 2px; padding: 0; transition: all .15s ease-in-out; 
+                    &:hover { box-shadow: 0 7px 10px 0 #8c6eab30;  }
+                    .artwork { display: flex; align-items: center; justify-content: center; max-width: 200px;
+                        img { width: 170px; object-fit: contain; height: 170px; box-shadow: inset 0px 2px 2px 0 #00000050; border-radius: 2px; }
+                    }
+                    .metaInfo { display: flex; flex: 1; padding: 15px; flex-direction: column;
+                        .metaTop { display: flex; justify-content: space-between;
+                            .albumTitle { font-size: 1.2rem; font-weight: bold; color: #8c6eab; }
+                        }
+                        .metaBottom { display: flex; flex: 1;
+                            img { width: 50px; margin: 0 5px; }
+                        }
+                    }
+                }
+            }
+        }
+        .noteList { width: 40%; box-shadow: 1px 1px 5px 1px #518DC930 ; min-width: 400px; padding: 30px 20px;
+            @media (min-width: 0px) and (max-width: 767px) { display: none; }
+            .heading { font-size: 1.2rem; font-weight: bold; color: #518DC9; margin-bottom: 30px; }
+            .event { padding: 15px 10px; border: solid 1px #edf1f7; border-left: solid 3px #518DC9; margin: 10px 0; cursor: pointer;
+                transition: all .15s ease-in-out; 
+                &:hover { box-shadow: 0 1px 1px 0 #518DC930, 0 1px 1px 0 #518DC930; background: #518DC910; }
+                p { margin: 0; }
+            }
+        }
+    }
+}

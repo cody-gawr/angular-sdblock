@@ -1,0 +1,23 @@
+.summaryDialog { width: 400px;
+    ion-card-content {
+        .uploadProgress { width: 100%; padding: 10px;
+            .progressStatus { display: flex; justify-content: space-between; align-items: center;
+                .retryButton { color: #518DC9; cursor: pointer; padding: 5px; display: flex; align-items: center;
+                    &:hover { color: #782c7f; }
+                }
+            }
+            .progressBar {width: 100%; height: 10px; background-color: #eeeeee; 
+                .current { background: linear-gradient(90deg, #518DC9 0%, #782c7f 100%); height: 10px; }
+            }
+        }
+        .container { max-height: 300px; overflow: auto; padding: 10px;
+            .sectionTitle { padding: 10px 0; font-size: 1rem; font-weight: bold; color: #518DC9;
+            }
+            .icon { display: flex; justify-content: center; padding: 10px;
+            }
+            .item { display: flex; justify-content: space-between; align-items: center;
+                .size { color: gray; }
+            }
+        }
+    }
+}

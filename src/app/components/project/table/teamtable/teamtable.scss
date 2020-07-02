@@ -1,0 +1,71 @@
+.container {
+    .title { 
+        p { font-size: 1.3rem; color: #782c7f; font-weight: bold;}
+    }
+    .content {
+        .table { padding: 10px 30px;
+            @media screen and (max-width: 767px) {
+                padding: 5px;
+            }
+            ion-col { padding: 20px 10px; }
+            .tableHeader {
+                font-weight: bold;
+            }
+            .tableBody { cursor: pointer;
+                .permission { padding: 0 20px 10px 20px;
+                    ion-col { padding: 5px; display: flex; align-items: center; }
+                    ion-checkbox { margin-right: 5px; }
+                    .project { padding-bottom: 5px; }
+                }
+                .actionCol { display: flex; align-items: center; 
+                    i { width: 30px; }
+                }
+            }
+            .crownIcon { color: goldenrod; }
+            i { text-align: center; cursor: pointer; 
+                &:hover { cursor: pointer; transform: scale(1.05); }
+            }
+            .active {color: red;}
+            button { height: 40px; border-radius: 10px; float: right; min-width: 180px; width: 100%;}
+        }
+        .chartWrapper { padding: 20px; display: flex;  align-items: center; 
+            app-chart { width: 100%; height: fit-content; max-width: 200px; margin: auto;}
+        }
+    }
+}
+.dialogForm {
+    .content { 
+        .role {width: 100%;}
+        .permission { padding: 0 20px 10px 20px;
+            ion-col { padding: 5px; display: flex; align-items: center; }
+            ion-checkbox { margin-right: 5px; }
+            .project { padding-bottom: 5px; }
+        }
+    }
+}
+.permissionDialog { width: 600px;
+    .content { 
+        .role {width: 100%;}
+        .tab { padding: 20px 30px; justify-content: space-around; display: flex; flex-direction: column; width: 100%; height: 320px; overflow-y: auto;
+            &.fileTab { justify-content: flex-start; }
+            @media screen and (max-width: 767px){
+                padding: 10px; height: 200px;
+            }
+            ion-col { padding: 5px; display: flex; align-items: center; }
+            ion-checkbox { margin-right: 5px; }
+        }
+        .projectTab { border-bottom: solid 1px #edf1f7; margin: 0 10px; display: flex; flex-direction: row;
+            .tablinks { outline: none;  box-sizing: content-box; cursor: pointer; transition: 0.3s; font-size: 0.9rem; flex: 1;  font-weight: bold; text-transform: uppercase; padding: 0;
+                .wrapper { width: 100%;  height: 100%; background-color: white; padding: 15px 0; display: flex; justify-content: center; align-items: center;}
+                .border { width: 100%; height: 3px; background-color: white;}
+                &:hover { 
+                    .border { background: lightgray; }
+                }
+                &.active { 
+                    .border { background: linear-gradient(90deg, #518DC9 0%, #782c7f 100%); }
+                }
+                span { font-size: 0.9rem; color: black; font-weight: 700; text-transform: uppercase;}
+            }
+        }
+    }
+}

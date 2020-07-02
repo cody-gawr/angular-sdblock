@@ -1,0 +1,125 @@
+<div class="page-wrapper documentsInfoWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <div class="mainContent menuExpand" id="mainContent">
+        <app-infoheader></app-infoheader>
+        <app-tabheader tab="project"></app-tabheader>
+        <ion-row>
+          <ion-col size="12" class="category">
+            <div class="categoryButton" [ngClass]="{'active': currentTab == 'Info'}" (click)="setCollectionSection('Info')">
+              <i class="fa-info" [ngClass]="{'fas': currentTab == 'Info', 'fad icon-colors': currentTab != 'Info'}"></i><p>Info</p>
+              <div class="border"></div>
+            </div>
+            <div class="categoryButton" [ngClass]="{'active': currentTab == 'Music', 'disable': !collectionUuid}" (click)="setCollectionSection('Music')">
+              <i class="fa-list-music" [ngClass]="{'fas': currentTab == 'Music', 'fad icon-colors': currentTab != 'Music'}"></i><p>Music</p>
+            </div>
+            <div class="categoryButton" [ngClass]="{'active': currentTab == 'Video', 'disable': !collectionUuid}" (click)="setCollectionSection('Video')">
+              <i class="fa-photo-video icon-colors" [ngClass]="{'fas': currentTab == 'Video', 'fad icon-colors': currentTab != 'Video'}"></i><p>Video</p>
+            </div>
+            <div class="categoryButton" [ngClass]="{'active': currentTab == 'Merch', 'disable': !collectionUuid}" (click)="setCollectionSection('Merch')">
+              <i class="fa-tags" [ngClass]="{'fas': currentTab == 'Merch', 'fad icon-colors-2': currentTab != 'Merch'}"></i><p class="hide-xs hide-vs hide-sm hide-md hide-lg">Merchandise</p>
+              <p class="hide-vl hide-xl">Merch</p>
+            </div>
+            <div class="categoryButton" [ngClass]="{'active': currentTab == 'Other', 'disable': !collectionUuid}" (click)="setCollectionSection('Other')">
+              <i class="fa-folder-tree" [ngClass]="{'fas': currentTab == 'Other', 'fad icon-colors': currentTab != 'Other'}"></i><p>Files</p>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="feature-body" >
+          <ion-col size="12">
+            <ion-row  *ngIf="currentTab != 'Info'">
+              <ion-col size="12" class="ion-no-padding ion-no-margin">
+                <app-assettable></app-assettable>
+              </ion-col>
+            </ion-row>
+            <div *ngIf="currentTab == 'Info'">
+              <div  *ngIf="contractObs | async as contract; else loading;" class="full-width">
+                <ion-row class="createStep" *ngIf="projectInfo.status != 'Active'">
+                  <ion-col size="12">
+                    <i class="fas fa-check mr10 colorBlue" *ngIf="contract?.flag_status == 'Active'"></i>
+                    <i class="fas fa-minus mr10 colorPurple" *ngIf="contract?.flag_status != 'Active'"></i>
+                    <span class="heading">
+                      <!-- <a [routerLink]="['/project/' + projectID + '/contract']">Smart Contract</a> Agreement -->
+                      <b>Smart Contract</b> Agreement
+                    </span>
+                    <ion-row class="agreeStatus">
+                      <ion-col size="12" *ngFor="let member of contract?.users">
+                        <div *ngIf="member?.contract_status == 'Active'">
+                          <i class="fas fa-check mr10 colorBlue"></i>
+                          <span><b>{{member.name}}</b> accepted agreement</span>
+                        </div>
+                        <div *ngIf="member?.contract_status == 'Pending'">
+                          <i class="fas fa-minus mr10 colorPurple"></i>
+                          <span><b>{{member.name}}</b> hasn't responded</span>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size="12" *ngIf="projectInfo.collections">
+                    <i class="fas fa-check mr10 colorBlue"></i><span class="heading">Upload Music Files</span>
+                  </ion-col>
+                  <ion-col size="12" *ngIf="!projectInfo.collections">
+                    <button nbButton (click)="uploadFiles()" status="info" class="uploadButton">
+                      <span class="gradientText">Upload File</span>
+                    </button>
+                  </ion-col>
+                  <ion-col size="12" *ngIf="projectInfo.deployments">
+                    <i class="fas fa-check mr10 colorBlue"></i><span class="heading">Deploy to Platform</span>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <div class="tableWrapper">
+                <ion-row *ngIf="projectInfo.tracks.length > 0">
+                  <ion-col size="12" class="projectTitle mb20 hide-xs hide-vs hide-sm">
+                    <span>{{projectInfo?.project_title}}</span>
+                  </ion-col>
+                  <ion-col size="4" class="horizontalCenterRow hide-xs hide-vs hide-sm">
+                    <span>Artist: {{projectInfo?.serviceName}}</span>
+                  </ion-col>
+                  <ion-col size="4" class="horizontalCenterRow hide-xs hide-vs hide-sm">
+                    <span>Created At: {{projectInfo?.stamp_created | date: 'MM.dd.y'}}</span>
+                  </ion-col>
+                  <ion-col size="4" class="horizontalCenterRow hide-xs hide-vs hide-sm">
+                    <span>UPC: {{projectInfo?.project_upc}}</span>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="projectInfo.tracks.length > 0">
+                  <div class="m10 gradientTable full-width">
+                    <div class="border-bottom ion-padding-horizontal tableHeader">
+                      <ion-row class="rowWrapper">
+                        <ion-col size="2" class="verticalCenterRow"><b>Track</b></ion-col>
+                        <ion-col size="4" class="verticalCenterRow"><b>Title</b></ion-col>
+                        <ion-col size="4" class="verticalCenterRow"><b>ISRC</b></ion-col>
+                        <ion-col size="2" class="verticalCenterRow"><b>Duration</b></ion-col>
+                      </ion-row>
+                    </div>
+                    <div class="row-highlight transition-action-2 tableBody" *ngFor="let track of projectInfo.tracks; let index = index;">
+                      <ion-row class="rowWrapper">
+                        <ion-col class="column" size="2">{{ track?.file_track }}</ion-col>
+                        <ion-col class="column" size="4">{{ track?.file_title }}</ion-col>
+                        <ion-col class="column" size="4">{{ track?.file_isrc }}</ion-col>
+                        <ion-col class="column" size="2">{{ track?.file_duration | duration}}</ion-col>
+                      </ion-row>
+                    </div>
+                  </div>
+                </ion-row>
+              </div>
+            </div>
+            
+          </ion-col>
+        </ion-row>
+      </div>
+      <app-historybar class="sidemenu hidebar"></app-historybar>
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>  
+</div>
+
+<ng-template #loading>
+  <div class="asyncLoading">
+      <ion-spinner name="lines"></ion-spinner>
+      <span class="ml10">Loading Contract Data...</span>
+  </div>
+</ng-template>

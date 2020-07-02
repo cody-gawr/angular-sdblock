@@ -1,0 +1,41 @@
+.page-wrapper { overflow: auto; background-color: #fafafa; padding-top: 1px;
+  .page-container {
+    .content-wrapper { margin-left: auto; margin-right: auto; margin-bottom: 40px; padding: 0 15px; display: flex; align-items: center;
+      @media (min-width: 768px) { padding: 0 24px; }
+      ion-col { padding: 0 15px; }
+
+      .left-panel {
+        @media (min-width: 768px) { padding: 0 30px; }
+        .feature { padding: 20px 0; 
+          .feature-body { 
+            ion-row { margin-left: -15px; margin-right: -15px;
+              ion-col { margin-bottom: 10px; }
+            }
+            .socialBtn { font-size: 1rem !important; }
+            .form-button { padding: 20px 5px; color: white; font-size: 0.95rem; font-weight: 700; }
+            .redirect-links { font-size: 1rem;  color: #518DC9; }
+            .eyeWrapper { position: absolute; height: 100%; top: 0; right: 0; width: 10%; display: flex; align-content: center; margin-right: 20px;
+              .toggle-password { color: #303030 !important; }
+              span { position: relative; margin: auto; }
+            }
+          }
+          
+        }
+        .card { margin: 10px 0;}
+        .more-actions { .forgot-password { float: left; }
+          a { cursor: pointer; text-decoration: none; line-height: 30px; 
+            &:hover { transform: scaleX(1); text-decoration: underline; } 
+          }
+        }
+        .error { color: rgb(255, 0, 0); font-size: 1rem; margin-top: 10px; }
+        .signinBtn { width: 200px; }
+      }
+
+      .right-panel {
+        img { width: 100%; object-fit: contain;
+          @media (max-width: 767px) { padding: 0 30px; max-width: 200px; }
+        }
+      }
+    }
+  }
+}

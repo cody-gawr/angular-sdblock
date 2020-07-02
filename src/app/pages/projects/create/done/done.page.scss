@@ -1,0 +1,52 @@
+.page-wrapper {
+  .page-container {
+    .stepper { display: flex; justify-content: center; margin-top: 50px;
+      .step { width: 100px; display: flex; flex-direction: column; align-items: center; color: #518DC9; margin: 10px; cursor: pointer;
+        &.selected { color: #782c7f;
+          .stepIcon { background: linear-gradient(225deg, #518DC9 0%, #782c7f 100%); border-width: 0 !important; }
+          i { color: white; }
+        } 
+        .stepIcon { width: 60px; height: 60px; display: flex; border-color: #782c7f #782c7f #518DC9 #518DC9 ; border-radius: 30px; 
+          border-width: 2px; border-style: solid;
+          i { font-size: 1.6rem; margin: auto; }
+        }
+        span { font-size: 1.1rem; text-transform: uppercase; margin-top: 10px; }
+      }
+      .link { width: 150px; height: 3px; background: linear-gradient(90deg, transparent 0%, #518DC9 30%, #782c7f 80%, transparent 100%);
+        margin-top: 30px;
+      }
+    }
+    ion-chip { --background: #fff; --color: #518DC9; border-top: 2px solid #782c7f !important; border-right: 2px solid #782c7f !important;
+      border-bottom: 2px solid #518DC9 !important; border-left: 2px solid #518DC9 !important;
+    }
+    .title { margin: 9px 0; }
+    ion-item { --border-color: #518DC9; --background-focused: #d9d9d9; --background-activated: #d9d9d9; }
+    .imageWrapper { height: 200px; width: 200px;
+      img { width: 200px; border-radius: 10px; }    
+    }
+    .editButton { width: 100px; height: 35px; padding: 0;}
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 767px) {
+  .editBtn {
+    width: 250px;
+    margin: 0 auto;
+    float: unset;
+  }
+}

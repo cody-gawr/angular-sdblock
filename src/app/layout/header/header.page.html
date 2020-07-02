@@ -1,0 +1,64 @@
+<ion-header no-shadow no-border>
+  <div class="container">
+    <ion-row class="desktopMenu hide-xs hide-vs hide-sm">
+      <ion-col size="3" class="logoWrapper">
+        <div class="logo verticalCenterRow">
+          <a (click)="navigatePage('home')"><img routerLinkActive="router-link-active" src="{{assetUrl}}/images/soundblock-logo.png" /></a>
+        </div>
+      </ion-col>
+      <ion-col class="menu ion-text-right" size="9">
+        <div class="menu-header ion-float-right">
+          <ul id="menu-main-nav" class="navbar-nav">
+            <div (click)="navigatePage('projects')" class="menu-item" *ngIf="authService.isAuthorized">
+              <span><i class="icon-colors-2 fad fa-user-music"></i>Projects</span>
+            </div>
+            <div (click)="navigatePage('reports')" class="menu-item" *ngIf="authService.isAuthorized && checkReportPermission()">
+              <span><i class="icon-colors fad fa-user-chart"></i>Reports</span>
+            </div>
+            <div (click)="navigatePage('settings')" class="menu-item" *ngIf="authService.isAuthorized">
+              <span><i class="icon-colors fad fa-user-cog"></i>Settings</span>
+            </div>
+            <div (click)="showHideTicketbar()" class="menu-item" *ngIf="authService.isAuthorized">
+              <span><i class="icon-colors fad fa-user-headset"></i>Support</span>
+            </div>
+            <div (click)="navigatePage('auth/signin')" class="menu-item" *ngIf="!authService.isAuthorized">
+              <span><i class="icon-colors fad fa-sign-in-alt"></i>Sign In</span>
+            </div>
+            <div (click)="navigatePage('auth/signup')" class="menu-item" *ngIf="!authService.isAuthorized">
+              <span><i class="icon-colors fad fa-user-plus"></i>Sign Up</span>
+            </div>
+          </ul>
+          <div class="avatar" *ngIf="authService.isAuthorized" (click)="showUserPopover($event)">
+            <img [src]="user.avatar"/>
+            <div class="badge" *ngIf="user.unread_notifications_count > 0"></div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="mobileMenu hide-md hide-lg hide-vl hide-xl">
+      <div class="logo">
+        <img routerLinkActive="router-link-active" (click)="navigatePage('home')" src="{{assetUrl}}/images/soundblock-fav.png"/>
+      </div>
+      <div class="menu">
+        <!-- <div class="icon">
+          <div onclick="toggleMenu()" (click)="settingsPopover($event)" class="nav-icon">
+            <div></div>
+          </div>
+        </div> -->
+        <div class="icon" (click)="showUsermenu($event)" *ngIf="authService.isAuthorized">
+          <img [src]="user.avatar"/>
+        </div>
+        <!-- <div class="icon" (click)="showNotification()" *ngIf="authService.isAuthorized">
+          <i class="fas fa-bell mt1"></i>
+          <div class="badge"></div>
+        </div> -->
+        <!-- <div class="icon" (click)="showHideHistorySidebar()" *ngIf="currentPage == 'project'">
+          <i class="fal fa-clipboard-list"></i>
+        </div> -->
+        <!-- <div class="icon support" (click)="showTicketbar()" *ngIf="authService.isAuthorized">
+          <i class="fas fa-user-headset"></i>
+        </div> -->
+      </div>
+    </ion-row>
+  </div>
+</ion-header>

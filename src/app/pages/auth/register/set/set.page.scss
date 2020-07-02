@@ -1,0 +1,27 @@
+.setWrapper {
+    .content-wrapper {
+        .priceDescription { display: flex; 
+            @media(max-width: 767px) {
+                flex-direction: column;
+            }
+            .section { padding: 0 15px; border-top: 2px solid #782c7f ; border-right: 2px solid #782c7f ; flex: 1; margin: 10px 5px;
+                border-bottom: 2px solid #518DC9 ; border-left: 2px solid #518DC9 ; margin-bottom: 10px; border-radius: 15px; 
+                h6 { color: #782c7f; font-weight: bold !important; text-align: center; }
+                ul { padding-left: 20px; }
+            }
+        }
+        input.serviceName { width: 100%; outline: none; border: 1px solid #518DC9; height: 58px; border-radius: 5px; padding: 15px; font-size: 16px;
+            &::placeholder { color: #aaaaaa; }
+        }
+        .sectionTitle { padding: 10px; border: none !important;
+            h6 { font-weight: bold !important; }
+        }
+        .selectStorage { font-size: 1rem; padding: 10px;
+            span { cursor: pointer; }
+        }
+        .buttonSection { display: flex; justify-content: center;
+            button { margin-right: 10px; width: 250px; }
+        }
+        #card-errors { color: #525252; font-size: 1rem; padding: 10px 0; }
+    }
+}

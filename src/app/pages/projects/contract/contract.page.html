@@ -1,0 +1,88 @@
+<div class="page-wrapper teamPageWrapper">
+  <div class="page-container">
+    <div class="content-wrapper">
+      <div class="mainContent" id="mainContent">
+        <app-infoheader></app-infoheader>
+        <app-tabheader tab="contract"></app-tabheader>
+        <div class="container" *ngIf="contractObs | async as contract; else loading">
+          <ion-row class="section" *ngIf="!contract.users.length && hasContractPermission">
+            <button nbButton status="info" (click)="createContract()"><div class="gradientText">Create Contract</div></button>
+          </ion-row>
+          <ion-row class="section" *ngIf="contract.users.length && hasContractPermission">
+            <button nbButton status="info" (click)="modifyContract(contract)"><div class="gradientText">Modify Contract</div></button>
+          </ion-row>
+          <div *ngIf="contract.users.length">
+            <ion-row class="section">
+              <ion-col size="12" sizeMd="3" sizeLg="2.5">
+                <span class=""><b>CONTRACT ID</b></span>
+              </ion-col>
+              <ion-col size="12" sizeMd="9">
+                <span class="colorBlue ml20">{{contract?.contract_uuid}}</span>
+              </ion-col>
+            </ion-row>
+            <ion-row class="section">
+              <ion-col size="12" sizeMd="3" sizeLg="2.5">
+                <span class=""><b>CONTRACT STATUS</b></span>
+              </ion-col>
+              <ion-col size="12" sizeMd="9">
+                <span class="colorBlue ml20">{{contract?.flag_status}}</span>
+              </ion-col>
+            </ion-row>
+            <ion-row class="section">
+              <ion-col size="12" sizeMd="3" sizeLg="2.5">
+                <span *ngIf="contract?.flag_status != 'Active'"><b>CONTRACT CREATED</b></span>
+                <span *ngIf="contract?.flag_status == 'Active'"><b>ACTIVE SINCE</b></span>
+              </ion-col>
+              <ion-col size="12" sizeMd="9">
+                <span class="colorBlue ml20">{{contract.stamp_updated | date: 'MMM dd, yyyy'}}</span>
+              </ion-col>
+            </ion-row>
+            <ion-row class="section">
+              <ion-col size="12" sizeMd="8">
+                <ion-row><b>MEMBER PAYOUT</b></ion-row>
+                <div class="full-width p20">
+                  <ion-row *ngFor="let member of contract.users; let index = index;" class="member">
+                    <ion-col size="5" sizeMd="4"><b>{{member.name}}</b></ion-col>
+                    <ion-col size="4" class="hide-xs hide-vs hide-sm">{{member.user_role}}</ion-col>
+                    <ion-col size="3" sizeMd="2">{{member.user_payout}}%</ion-col>
+                    <ion-col size="4" sizeMd="2">
+                      <span [ngClass]="{'colorBlue': member.contract_status == 'Accepted', 'colorPurple': member.contract_status == 'Pending'}">
+                        {{member.contract_status}}</span>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngFor="let member of contract.invites; let index = index;" class="member">
+                    <ion-col size="5" sizeMd="4"><b>{{member.invite_name}}</b></ion-col>
+                    <ion-col size="4" class="hide-xs hide-vs hide-sm">{{member.invite_role}}</ion-col>
+                    <ion-col size="3" sizeMd="2">{{member.user_payout}}%</ion-col>
+                    <ion-col size="4" sizeMd="2">
+                      <span class="colorPurple">
+                        Pending</span>
+                    </ion-col>
+                  </ion-row>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class="section">
+              <button nbButton status="info" (click)="rejectContract(contract)" class="mr20" *ngIf="userContract?.contract_status == 'Pending'">
+                <div class="gradientText">Reject Contract</div>
+              </button>
+              <button nbButton status="primary" (click)="acceptContract(contract)" *ngIf="userContract?.contract_status == 'Pending'">
+                Accept Contract
+              </button>
+            </ion-row>
+          </div>
+        </div>
+      </div>
+      <!-- <app-historybar class="sidemenu hidebar"></app-historybar> -->
+    </div>
+    <div class="page-footer">
+      <app-page-footer></app-page-footer>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="asyncLoading">
+      <ion-spinner name="lines"></ion-spinner>
+      <span class="ml10">Loading Smart Contract Data...</span>
+  </div>
+</ng-template>
